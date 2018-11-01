@@ -1,5 +1,4 @@
 class RoomsController < ApplicationController
-  before_action :authenticate_user!
   def index
   end
 
@@ -7,8 +6,5 @@ class RoomsController < ApplicationController
   end
 
   def create
-
-    puts "asdf"
   end
-
 end
