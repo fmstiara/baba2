@@ -7,4 +7,12 @@ class User < ApplicationRecord
   has_many :user_rooms, dependent: :destroy
   has_many :rooms, :through => :user_rooms
 
+
+  def email_required?
+  	false
+  end
+  def email_changed?
+  	false
+  end
+
 end
