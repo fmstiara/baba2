@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
-  get 'rooms/index'
-  get 'rooms/show'
-  get 'rooms/create'
-  root 'room#index'
+  root "rooms#index"
   resources :rooms, only: [:show, :create]
   devise_for :users, controllers: {
     sessions: 'users/sessions',
