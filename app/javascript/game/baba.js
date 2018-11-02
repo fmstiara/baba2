@@ -29,41 +29,43 @@ export class Baba extends SkyWay{
         // ゲームを開始する
         const self = this;
         let cards = self.cardInit();
-        let members = this.getRoomMembers(_roomName)
 
-        if(members.length < 2){
-            alert('人数が揃っていません');
-        } else {
-            self.peer.on('data', (data)=>{
-                console.log(data);
-                if(data.hasOwnProperty('cards')){
-                    self.roomInfo = data;
-                    self.cardList = self.roomInfo['users'][self.peer.id];
-                }
-            })
+        self.getRoomMembers(_roomName).then((members)=>{
+            members.push(self.peer.id);
+            console.log(members);
+            if(members.length < 2){
+                alert('人数が揃っていません');
+            } else {
+                self.room.on('data', (data)=>{
+                    console.log(data);
+                    if(data.hasOwnProperty('cards')){
+                        self.roomInfo = data;
+                        self.cardList = self.roomInfo['users'][self.peer.id];
+                    }
+                })
 
-            self.shuffle(cards)
+                self.shuffle(cards)
                 .then(()=>{
-                    self.roomInfo = {users: [], lest: []}
+                    self.roomInfo = {users: [], lest: []};
 
                     let t = 0;
                     let s = Math.floor(cards.length / members.length);
                     let a = cards.length % members.length;
-
                     for(let i=0; i<members.length; i++){
                         let e = t + s + (i<a?1:0);
-                        let c = cards.slice(t, e)
-                        self.roomInfo['users'][members[i].id] = c
+                        let c = cards.slice(t, e);
+                        self.roomInfo['users'][members[i].id] = c;
                         t = e;
                     }
 
                     if(self.room){
+                        console.log('send init card');
                         self.room.send(self.roomInfo);
                     }
                 })
-
-            //
-        }
+                //
+            }
+        })
 
     }
 
@@ -71,16 +73,16 @@ export class Baba extends SkyWay{
         return new Promise((resolve)=>{
             for (let i = array.length - 1; i >= 0; i--){
                 let rand = Math.floor( Math.random() * ( i + 1 ) );
-                [array[i], array[rand]] = [array[rand], array[i]]
+                [array[i], array[rand]] = [array[rand], array[i]];
             }
-            resolve()
+            resolve();
         })
     }
 
     start(_roomName){
         // ゲーム開始
         // ゲーム開始したら,その部屋にいる人のゲーム開始ボタンを使えなくする
-        this.gameInit(_roomName)
+        this.gameInit(_roomName);
     }
 
     end(_roomName){
