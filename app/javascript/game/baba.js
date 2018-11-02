@@ -11,6 +11,8 @@ export class Baba extends SkyWay{
         this.rightUser = ''
 
         console.log('new Baba instance')
+
+        
     }
 
     cardInit(){
@@ -36,17 +38,10 @@ export class Baba extends SkyWay{
             if(members.length < 2){
                 alert('人数が揃っていません');
             } else {
-                self.room.on('data', (data)=>{
-                    console.log(data);
-                    if(data.hasOwnProperty('cards')){
-                        self.roomInfo = data;
-                        self.cardList = self.roomInfo['users'][self.peer.id];
-                    }
-                })
 
                 self.shuffle(cards)
                 .then(()=>{
-                    self.roomInfo = {users: [], lest: []};
+                    self.roomInfo = {users: {}, lest: []};
 
                     let t = 0;
                     let s = Math.floor(cards.length / members.length);
@@ -54,12 +49,13 @@ export class Baba extends SkyWay{
                     for(let i=0; i<members.length; i++){
                         let e = t + s + (i<a?1:0);
                         let c = cards.slice(t, e);
-                        self.roomInfo['users'][members[i].id] = c;
+                        self.roomInfo['users'][members[i]] = c;
                         t = e;
                     }
 
                     if(self.room){
                         console.log('send init card');
+                        console.log(self.room);
                         self.room.send(self.roomInfo);
                     }
                 })
@@ -93,6 +89,13 @@ export class Baba extends SkyWay{
         // カードを選択
         // peerIdと選択したカードを送る
 
+    }
+
+    makeCall(_roomName){
+        super.makeCall(_roomName);
+        this.room.on('data', data => {
+            console.log('hello data');
+        })
     }
 
     exchange(){
