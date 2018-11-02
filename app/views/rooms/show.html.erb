@@ -22,6 +22,10 @@
       <label for="videoSource">Video source: </label><select id="videoSource"></select>
     </div>
 
+    <!-- キャンバスの作成 -->
+    <button onClick="face_start()">スタート</button>
+    <canvas id="canvas" width="480px" height="270px"></canvas>
+
     
 	<h3>Action</h3>
     <div id="step2">
@@ -37,5 +41,61 @@
 
 <%= javascript_pack_tag 'game' %>
 
+<style type="text/css">
+#canvas {display:none;}
+</style>
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script>
+var count = 0;
+  function send_face(){
+    count++;
+    var canvas = document.getElementById("canvas");
+    var video = document.getElementById("my-video");
+    canvas.getContext("2d").drawImage(video, 0, 0, 480, 270);//この行でスクリーンショットを取っている
+
+    let data = canvas.toDataURL('image/jpeg');
+      fetch(data)
+        .then(res => res.blob())
+        .then(blobData => {
+          console.log("aaaaa")
+          console.log(blobData)
+          var params = {
+            "returnFaceId": "false",
+            "returnFaceLandmarks": "false",
+            "returnFaceAttributes":
+                "emotion"
+          };
+          $.ajax({
+              url: "https://japaneast.api.cognitive.microsoft.com/face/v1.0/detect"+ "?" + $.param(params),
+              contentType: "application/octet-stream",
+              headers: {
+                'Ocp-Apim-Subscription-Key': ""
+              },
+              type: "POST",
+              processData: false,
+              data: blobData
+            })
+
+            .done(function(data) {
+            // Show formatted JSON on webpage.
+            console.log("get")
+              console.log(data[0]["faceAttributes"]["emotion"])//ここで感情を取得できた
+            })
+
+            .fail(function(err) {
+              console.log("b")
+              $("#results").text(JSON.stringify(err));
+            })
+        });
+  }
+  function face_start(){
+    var id = setInterval(function(){
+      console.log("count")
+    send_face();
+    if(count > 3){　
+      clearInterval(id);　//idをclearIntervalで指定している
+    }}, 5000);
+  }
+</script>
 
