@@ -1,2 +1,41 @@
-<h3><%= "#{@room.name}部屋" %></h3>
+<h3 id="room" data-room="<%= @room.name %>"><%= "#{@room.name}部屋" %></h3>
+
+<div class="container">
+  <!-- Video area -->
+  <div class="pure-u-2-3" id="video-container">
+    <div id="their-videos"></div>
+    <div>
+      <label id="my-label"></label>
+      <video id="my-video" muted="true" autoplay playsinline></video>
+    </div>
+  </div>
+
+  <!-- Steps -->
+  <div class="">
+    <h3>Settigns</h3>
+
+    <div class="select">
+      <label for="audioSource">Audio input source: </label><select id="audioSource"></select>
+    </div>
+
+    <div class="select">
+      <label for="videoSource">Video source: </label><select id="videoSource"></select>
+    </div>
+
+    
+	<h3>Action</h3>
+    <div id="step2">
+      <button id="participate" class="btn btn-success">参加する</button>
+      <button id="game-start" class="btn btn-success">ゲーム開始</button>
+
+	  <button id="end-call" class="btn btn-warning">Tel Off</button>
+	  <%= link_to "部屋を出る", root_path , class: "btn btn-default" %>
+    </div>
+
+  </div>
+</div>
+
+<%= javascript_pack_tag 'game' %>
+
+
 

@@ -2,13 +2,20 @@ import { SkyWay } from './skyway';
 import { Card } from './card';
 
 export class Baba extends SkyWay{
-    constructor(){
+    constructor(_roomName){
         super();
-        this.gameInit()
-        console.log('extends skyway')
+
+        this.roomInfo = null
+        this.cardList = []
+        this.leftUser = '' //peerId
+        this.rightUser = ''
+
+        console.log('new Baba instance')
     }
 
-    async cardInit(){
+
+
+    cardInit(){
         let cards = []
         for(let i = 1; i<=13; i++){
             cards.push(new Card(i, "heart"));
@@ -17,36 +24,77 @@ export class Baba extends SkyWay{
             cards.push(new Card(i, "spede"));
         }
         cards.push(new Card(-1, "joker"))
-
         return cards
     }
 
-    async gameInit(_roomName = ''){
-        this.peer.on('connection', (connection)=>{
-            console.log(connection.metadata);
-        })
-        let cards = await this.cardInit()
-        console.log(cards);
-        // let members = this.getRoomMembers(_roomName)
-        // let roomInfo = {cards: cards, users: {}, lest: []}
-        // for(let i=0; i<members.length; i++){
-        //     roomInfo['users'][members[i].id] = []
-        // }
-        // connection.metadata[_roomName] = roomInfo
-    }
-
-    async shuffle(array = []){
-        for (let i = array.length - 1; i >= 0; i--){
-            let rand = Math.floor( Math.random() * ( i + 1 ) );
-            [array[i], array[rand]] = [array[rand], array[i]]
-        }
-    }
-
-    start(){
+    gameInit(_roomName = ''){
         // ゲームを開始する
+        const self = this;
+        let cards = self.cardInit();
+        let members = this.getRoomMembers(_roomName)
+        
+        if(members.length < 2){
+            alert('人数が揃っていません');
+        } else {
+            self.peer.on('data', (data)=>{
+                console.log(data);
+                if(data.hasOwnProperty('cards')){
+                    self.roomInfo = data;
+                    self.cardList = self.roomInfo['users'][self.peer.id];
+                }
+            })
+
+            self.shuffle(cards)
+                .then(()=>{
+                    self.roomInfo = {users: [], lest: []}
+
+                    let t = 0;
+                    let s = Math.floor(cards.length / members.length);
+                    let a = cards.length % members.length;
+
+                    for(let i=0; i<members.length; i++){
+                        let e = t + s + (i<a?1:0);
+                        let c = cards.slice(t, e)
+                        self.roomInfo['users'][members[i].id] = c
+                        t = e;
+                    }
+
+                    if(self.room){
+                        self.room.send(self.roomInfo);
+                    }
+                })
+
+            //
+        }
+
     }
 
-    end(){
+    shuffle(array = []){
+        return new Promise((resolve)=>{
+            for (let i = array.length - 1; i >= 0; i--){
+                let rand = Math.floor( Math.random() * ( i + 1 ) );
+                [array[i], array[rand]] = [array[rand], array[i]]
+            }
+            resolve()
+        })
+    }
+
+    start(_roomName){
+        // ゲーム開始
+        // ゲーム開始したら,その部屋にいる人のゲーム開始ボタンを使えなくする
+        this.gameInit(_roomName)
+    }
+
+    end(_roomName){
         // ゲームを終了する
+    }
+
+    choice(){
+        // カードを選択
+
+    }
+
+    exchange(){
+        // カード交換の儀
     }
 }
