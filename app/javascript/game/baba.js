@@ -13,8 +13,6 @@ export class Baba extends SkyWay{
         console.log('new Baba instance')
     }
 
-
-
     cardInit(){
         let cards = []
         for(let i = 1; i<=13; i++){
@@ -32,7 +30,7 @@ export class Baba extends SkyWay{
         const self = this;
         let cards = self.cardInit();
         let members = this.getRoomMembers(_roomName)
-        
+
         if(members.length < 2){
             alert('人数が揃っていません');
         } else {
@@ -91,10 +89,17 @@ export class Baba extends SkyWay{
 
     choice(){
         // カードを選択
+        // peerIdと選択したカードを送る
 
     }
 
     exchange(){
         // カード交換の儀
+        // choiceと実質同じだが、実際にカードを受け取る
+    }
+
+    omake(){
+        // 手札シャッフル
+        // 人数が3人以上のとき手札を交換する
     }
 }
