@@ -1,0 +1,13 @@
+
+<h2>ババ抜き</h2>
+<h3>部屋作成</h3>
+
+<%= form_with model: @room do |form| %>
+  <%= form.text_field :name %>
+  <%= submit_tag "作成" %>
+<% end %>
+
+<h3>ババ抜き部屋一覧</h3>
+<% @rooms.each do |room| %>
+  <%= link_to room.name, room_path(room.id) %><br>
+<% end %>
