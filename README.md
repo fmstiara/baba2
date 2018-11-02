@@ -22,3 +22,13 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+必要なもの
+- node
+- yarn
+
+必要なこと
+- npm install 
+- npm install yarn
+- bundle install
+- rails db:migrate

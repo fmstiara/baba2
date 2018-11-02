@@ -1,12 +1,16 @@
+import Peer from 'skyway-js'
+
 export class SkyWay{
     constructor(){
         this.peer = new Peer({
             key: 'caf1fe56-c907-4957-8b12-d2e2ad93ac3a',
-            debug: 3
+            debug: 3 //あとで数字を下げてdebug内容を減らす
         });
 
+        this.metadata
         this.localStream = null;
         this.room = null;
+
         this.peerInit();
     }
 
@@ -79,7 +83,6 @@ export class SkyWay{
           $('#my-video').get(0).srcObject = stream;
           this.localStream = stream;
 
-          
           if (this.room) {
             this.room.replaceStream(stream);
             return;
@@ -127,8 +130,7 @@ export class SkyWay{
     makeCall(_roomName){
         const roomName = _roomName;
         if(!roomName){return;}
-
-        this.room = this.peer.joinRoom('sfu_video_' + roomName, {mode: 'sfu', stream: this.localStream});
+        this.room = this.peer.joinRoom('sfu_video_' + roomName, {mode: 'sfu', stream: this.localStream, metadata: {}});
         this.onCall(this.room);
     }
 
@@ -136,5 +138,13 @@ export class SkyWay{
         if(this.room){
             this.room.close();
         }
+    }
+
+    getRoomMembers(_roomName){
+        let room = this.peer.rooms['sfu_video_'+_roomName]
+        if(!room){
+            return []
+        }
+        return room.members;
     }
 }
