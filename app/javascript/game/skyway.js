@@ -143,7 +143,6 @@ export class SkyWay{
     getRoomMembers(_roomName){
         const self = this;
         return new Promise((resolve, reject)=>{
-            console.log(self.peer);
             let room = self.peer.rooms['sfu_video_'+_roomName]
             if(!room){
                 resolve([]);
