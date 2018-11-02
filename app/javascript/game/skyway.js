@@ -16,7 +16,7 @@ export class SkyWay{
 
     peerInit(){
         this.peer.on('open', () => {
-            // Get things started
+            // Get things startedbin/
             this.getMediaSources();
         });
 
@@ -141,10 +141,14 @@ export class SkyWay{
     }
 
     getRoomMembers(_roomName){
-        let room = this.peer.rooms['sfu_video_'+_roomName]
-        if(!room){
-            return []
-        }
-        return room.members;
+        const self = this;
+        return new Promise((resolve, reject)=>{
+            console.log(self.peer);
+            let room = self.peer.rooms['sfu_video_'+_roomName]
+            if(!room){
+                resolve([]);
+            }
+            resolve(room.members);
+        })
     }
 }
