@@ -3,4 +3,8 @@ export class Card{
         this._num = _num
         this._mark = _mark
     }
+
+    getNumber(){
+        return this._num;
+    }
 }

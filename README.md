@@ -32,3 +32,14 @@ Things you may want to cover:
 - npm install yarn
 - bundle install
 - rails db:migrate
+
+Baba.onで用意したイベント
+- choiced(カードを選択されたとき)
+- take(カードを取ったとき)
+- taken(カードを取られたとき)
+- throw(カードを捨てるとき)
+- push(カードを手札に加えるとき)
+- change(自分と自分が取る人以外でやり取りが行われたとき)
+- win(自分が勝ったとき)
+- anyone-win(他人が勝ったとき)
+- end(ゲーム終了=札が52枚に達した)
