@@ -5,6 +5,7 @@ export class SkyWay{
             debug: 3
         });
 
+        this.metadata = null;
         this.localStream = null;
         this.room = null;
         this.peerInit();
