@@ -39,6 +39,20 @@ export class Baba extends SkyWay{
         }
     }
 
+    emit(_eventName = "test", _targetUserId = null ,_data){
+        if(!_targetUserId){
+            this.room.send({
+                event: _eventName,
+                data: _data
+            })
+        } else {
+            this.connections[_targetUserId].send({
+                event: _eventName,
+                data: _data
+            });
+        }
+    }
+
     cardInit(){
         let cards = []
         for(let i = 1; i<=13; i++){
@@ -62,8 +76,7 @@ export class Baba extends SkyWay{
                 alert('人数が揃っていません');
             } else {
 
-                self.shuffle(cards)
-                .then(()=>{
+                self.shuffle(cards).then(()=>{
                     self.roomInfo = {members: members, userCards: {}, trash: 0, winner: []};
 
                     let t = 0;
@@ -90,29 +103,11 @@ export class Baba extends SkyWay{
                         self.setTakeUser();
 
                         // 他のユーザにも情報を投げる。
-                        self.room.send(self.roomInfo);
+                        self.emit('init', null,self.roomInfo);
                     }
                 })
                 //
             }
-        })
-    }
-
-    firstCheck(_cards = []){
-        return new Promise((resolve)=>{
-            let res = []
-            for(let i=0; i<_cards.length-1;i++){
-                let include = false;
-                for(let j=i+1; j<_cards.length; j++){
-                    if(_cards[i].getNumber()==_cards[j].getNumber()){
-                        include=true;
-                        break;
-                    }
-                }
-                if(!include)res.push(_cards[i]);
-            }
-            _cards = res;
-            resolve;
         })
     }
 
@@ -124,6 +119,21 @@ export class Baba extends SkyWay{
             }
             resolve();
         })
+    }
+
+    firstCheck(_cards = []){
+        let res = []
+        for(let i=0; i<_cards.length-1;i++){
+            let include = false;
+            for(let j=i+1; j<_cards.length; j++){
+                if(_cards[i].getNumber()==_cards[j].getNumber()){
+                    include=true;
+                    break;
+                }
+            }
+            if(!include)res.push(_cards[i]);
+        }
+        return res;
     }
 
     start(_roomName){
@@ -142,9 +152,12 @@ export class Baba extends SkyWay{
         const self = this
 
         // 各種イベント定義
-        self.room.on('data', data => {
-            console.log(data);
-            if(data.hasOwnProperty('members')){
+        self.room.on('data', d => {
+            console.log(d);
+            const eventName = d['event'];
+            const data = d['data'];
+
+            if(eventName=='init'){
                 // 最初にカードを配られたとき
                 self.roomInfo = data;
                 console.log(data);
@@ -152,15 +165,14 @@ export class Baba extends SkyWay{
                 // 自分がカードを取る人を決定
                 self.setTakeUser();
 
-            } else if(data.hasOwnProperty('choice')){
+            } else if(eventName=='choice'){
                 // data['choice']番目のカードを取ろうとしている
-                self.choiced = data['choice'];
+                self.choiced = data['index'];
                 self.dispatch('choiced');
 
-            } else if(data.hasOwnProperty('take')){
-                // data['exchange']番目のカードを取られる
-                let index = data['take'];
-                let user_id = data['taken_user_id'];
+            } else if(eventName=='take'){
+                let index = data['index'];
+                let user_id = data['user_id'];
                 let cards = self.roomInfo['userCards'][user_id];
                 cards.splice(index, 1);
 
@@ -179,10 +191,10 @@ export class Baba extends SkyWay{
                     }
                 }
 
-            } else if(data.hasOwnProperty('throw')){
-                カードを捨てる
-                let index = data['throw'];
-                let user_id = data['throw_user_id'];
+            } else if(eventName=='throw'){
+                // カードを捨てる
+                let index = data['index'];
+                let user_id = data['user_id'];
                 let cards = self.roomInfo['userCards'][user_id];
                 cards.splice(index, 1);
                 
@@ -193,66 +205,82 @@ export class Baba extends SkyWay{
                 }
 
                 self.addTrash();
-            } else if(data.hasOwnProperty('push')){
+            } else if(eventName=='push'){
                 let c = data['push']
                 let cards = self.roomInfo['userCards'][data['push_user_id']]
                 cards.push(c);
                 self.dispatch('change')
                 // self.shuffle(cards);
-            } else if(data.hasOwnProperty('winner')){
+            } else if(eventName=='win'){
                 self.roomInfo['winner'].push(data['winner']);
                 self.dispatch('anyone-win');
             }
         })
     }
 
-    choice(_num){
+    choice(_index){
         // カードを選択
         // peerIdと選択したカードを送る
-        this.connections[this.takeUser.id].send({choice: _num});
+        this.emit('choice', this.takeUser.id, {index: _index});
     }
 
     take(_num){
-        // カード交換の儀
-        // choiceと実質同じだが、実際にカードを受け取る
         const self = this;
-        self.room.send({
-            take: _num,
-            taken_user_id: self.takeUser.id //取られる人
-        });
+        return new Promise((resolve)=>{
+            // カードを取る
+            self.emit('take',{
+                index: _num,
+                user_id: self.takeUser.id //取られる人
+            });
 
-        let cards = self.roomInfo['userCards'][self.takeUser.id];
-        let c = cards[_num]
-        cards.splice(n, 1);
-        self.dispatch('take');
+            let cards = self.roomInfo['userCards'][self.takeUser.id];
+            let c = cards[_num]
+            cards.splice(n, 1);
+            self.dispatch('take');
+            resolve(c);
+        })
+    }
 
-        let mycards = self.roomInfo['userCards'][self.peer.id];
-        self.getMatchCard(c).then((matchIndex)=>{
-            if(matchIndex){
-                // 一致するカードがあったとき
-                mycards.splice(matchIndex, 1);
-                
-                if(mycards.length == 0){
-                    // 勝ち
-                    self.iWin();
+    getMatchIndex(_card){
+        const self = this
+        return new Promise((resolve)=>{
+            let mycards = self.roomInfo['userCards'][self.peer.id]
+            for(let i=0; i<mycards.length; i++){
+                if(mycards[i].getNumber() == _card.getNumber()){
+                    resolve(i)
                 }
-
-                self.dispatch('throw');
-                self.room.send({
-                    throw: matchIndex,
-                    throw_user_id: self.peer.id
-                })
-
-                self.addTrash();
-            } else {
-                // 一致するカードがなかったとき
-                mycards.push(c);
-                self.dispatch('push');
-                self.room.send({
-                    push: c,
-                    push_user_id: self.peer.id
-                })
             }
+            resolve(null);
+        })
+    }
+
+    throwCard(_matchIndex){
+        const self = this;
+        return new Promise((resolve)=>{
+            let mycards = self.roomInfo['userCards'][self.peer.id];
+            mycards.splice(_matchIndex, 1);
+            if(mycards.length == 0){
+                // 勝ち
+                self.iWin();
+            }
+            self.emit('throw',null,{
+                index: matchIndex,
+                user_id: self.peer.id
+            })
+            self.dispatch('throw');
+        })
+    }
+
+    pushCard(_card){
+        const self = this;
+        return new Promise((resolve)=>{
+            let mycards = self.roomInfo['userCards'][self.peer.id];
+            mycards.push(_card);
+            self.emit('push',null,{
+                card: _card,
+                user_id: self.peer.id
+            })
+            self.dispatch('push');
         })
     }
 
@@ -275,19 +303,6 @@ export class Baba extends SkyWay{
     checkTakingCard(_num){
         // index.js側で数字を指定する。
         return this.roomInfo['userCards'][this.takeUser.id][_num];
-    }
-
-    getMatchIndex(_card){
-        const self = this
-        return new Promise((resolve)=>{
-            let mycards = self.roomInfo['userCards'][self.peer.id]
-            for(let i=0; i<mycards.length; i++){
-                if(mycards[i].getNumber() == _card.getNumber()){
-                    resolve(i)
-                }
-            }
-            resolve(null);
-        })
     }
 
     omake(){
@@ -314,8 +329,8 @@ export class Baba extends SkyWay{
     iWin(_id){
         this.rank = this.roomInfo['winner'].length + 1;
         this.roomInfo['winner'].push(this.peer.id)
-        this.room.send({
-            winner: this.peer.id
+        this.emit('win', null,{
+            user: this.peer.id
         })
         this.dispatch('win');
     }
