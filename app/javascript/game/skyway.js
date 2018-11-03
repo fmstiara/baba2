@@ -105,7 +105,7 @@ export class SkyWay{
           $(videoDOM).append($(
             '<div class="video_' + peerId +'" id="' + id + '">' +
               '<label>' + stream.peerId + ':' + stream.id + '</label>' +
-              '<video class="remoteVideos" autoplay playsinline>' +
+              '<video class="remoteVideos" width="" autoplay playsinline>' +
             '</div>'));
           const el = $('#' + id).find('video').get(0);
           el.srcObject = stream;
@@ -116,6 +116,7 @@ export class SkyWay{
           const peerId = stream.peerId;
           $('#video_' + peerId + '_' + stream.id.replace('{', '').replace('}', '')).remove();
         });
+
 
         // UI stuff
         room.on('close', ()=>{
@@ -128,6 +129,18 @@ export class SkyWay{
     }
 
     makeCall(_roomName){
+       //参加人数を数える
+          // var a = document.getElementsByClassName('remoteVideos');
+          // console.log(a[0]);
+          // console.log(a[0].width);
+          // console.log(a.length);
+          // if (a.length >= 2) {
+          //   console.log("a")
+          //   a[0].width = "200px"
+          //   a[0].height = "150px"
+          //   console.log(a[0].style.width);
+          // }
+
         const roomName = _roomName;
         if(!roomName){return;}
         this.room = this.peer.joinRoom('sfu_video_' + roomName, {mode: 'sfu', stream: this.localStream, metadata: {}});

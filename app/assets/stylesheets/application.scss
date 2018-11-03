@@ -13,3 +13,81 @@
  *= require_tree .
  *= require_self
  */
+
+ * {
+ 	margin:0;
+ 	padding:0;
+ }
+
+ .clearfix::after{
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.remoteVideos {
+	width:430px;
+	height:350px;
+}
+
+.my-video-wrapper {
+	float:right;
+	height:100%;
+	width:30%;
+}
+
+.their-video-wrapper{
+	float:left;
+	width:70%;
+	padding:100px 0;
+}
+
+
+#their-videos div {
+	margin:0 auto;
+	border:solid 1px;
+	float:left;
+	margin:30px 20px;
+}
+
+#my-video {
+	width:400px;
+	height:300px;
+	float:right;
+	position: fixed;
+	bottom: 0;
+	right:0;
+}
+
+.settings {
+	display:none;
+}
+
+#room {
+	text-align:center;
+}
+
+#their-videos label {
+	display:none;
+}
+
+#their-cards {
+	width:70%;
+	height:100px;
+	background-color:orange;
+	position: fixed;
+	bottom: 0;
+}
+
+#my-cards {
+	width:70%;
+	position:fixed;
+	top:0;
+	left:0;
+	height:100px;
+	background-color:orange;
+}
+
+#step2 {
+	text-align:center;
+}

@@ -1,17 +1,45 @@
-<h3 id="room" data-room="<%= @room.name %>"><%= "#{@room.name}部屋" %></h3>
-
 <div class="container">
   <!-- Video area -->
-  <div class="pure-u-2-3" id="video-container">
-    <div id="their-videos"></div>
-    <div>
-      <label id="my-label"></label>
-      <video id="my-video" muted="true" autoplay playsinline></video>
+  <div class="pure-u-2-3 clearfix" id="video-container">
+    <div id="my-cards">
+        自分ののカード表示
+      </div>
+    <div id="their-videos" class="clearfix their-video-wrapper">
+      <!-- これが一つの画面 -->
+      <div>
+        <label></label>
+        <video class="remoteVideos"></video>
+      </div>
+
+      <div>
+        <label></label>
+        <video class="remoteVideos"></video>
+      </div>
+    </div>
+
+    <div id="their-cards">
+      とる相手のカード表示
+    </div>
+
+      <div class="my-video-wrapper">
+        <div class="action">
+          <h2 id="room" data-room="<%= @room.name %>"><%= "#{@room.name}部屋" %></h2>
+          <div id="step2">
+            <button id="participate" class="btn btn-success">参加する</button>
+            <button id="game-start" class="btn btn-success">ゲーム開始</button>
+
+            <button id="end-call" class="btn btn-warning">Tel Off</button>
+            <%= link_to "部屋を出る", root_path , class: "btn btn-default" %>
+          </div>
+        </div>
+        <label id="my-label"></label>
+        <video id="my-video" muted="true" autoplay playsinline></video>
+      </div>
     </div>
   </div>
 
   <!-- Steps -->
-  <div class="">
+  <div class="settings">
     <h3>Settigns</h3>
 
     <div class="select">
@@ -25,19 +53,9 @@
     <!-- キャンバスの作成 -->
     <button onClick="face_start()">スタート</button>
     <canvas id="canvas" width="480px" height="270px"></canvas>
-
-    
-	<h3>Action</h3>
-    <div id="step2">
-      <button id="participate" class="btn btn-success">参加する</button>
-      <button id="game-start" class="btn btn-success">ゲーム開始</button>
-
-	  <button id="end-call" class="btn btn-warning">Tel Off</button>
-	  <%= link_to "部屋を出る", root_path , class: "btn btn-default" %>
-    </div>
-
   </div>
-</div>
+
+
 
 <%= javascript_pack_tag 'game' %>
 
@@ -47,7 +65,7 @@
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 <script>
-var count = 0;
+  var count = 0;
   function send_face(){
     count++;
     var canvas = document.getElementById("canvas");
@@ -55,47 +73,48 @@ var count = 0;
     canvas.getContext("2d").drawImage(video, 0, 0, 480, 270);//この行でスクリーンショットを取っている
 
     let data = canvas.toDataURL('image/jpeg');
-      fetch(data)
-        .then(res => res.blob())
-        .then(blobData => {
-          console.log("aaaaa")
-          console.log(blobData)
-          var params = {
-            "returnFaceId": "false",
-            "returnFaceLandmarks": "false",
-            "returnFaceAttributes":
-                "emotion"
-          };
-          $.ajax({
-              url: "https://japaneast.api.cognitive.microsoft.com/face/v1.0/detect"+ "?" + $.param(params),
-              contentType: "application/octet-stream",
-              headers: {
-                'Ocp-Apim-Subscription-Key': ""
-              },
-              type: "POST",
-              processData: false,
-              data: blobData
-            })
 
-            .done(function(data) {
-            // Show formatted JSON on webpage.
-            console.log("get")
-              console.log(data[0]["faceAttributes"]["emotion"])//ここで感情を取得できた
-            })
+    fetch(data)
+      .then(res => res.blob())
+      .then(blobData => {
+        var params = {
+          "returnFaceId": "false",
+          "returnFaceLandmarks": "false",
+          "returnFaceAttributes":
+              "emotion"
+        };
+        $.ajax({
+            url: "https://japaneast.api.cognitive.microsoft.com/face/v1.0/detect"+ "?" + $.param(params),
+            contentType: "application/octet-stream",
+            headers: {
+              'Ocp-Apim-Subscription-Key': ""
+            },
+            type: "POST",
+            processData: false,
+            data: blobData
+          })
 
-            .fail(function(err) {
-              console.log("b")
-              $("#results").text(JSON.stringify(err));
-            })
-        });
+        .done(function(data) {
+        // Show formatted JSON on webpage.
+          console.log("get")
+          console.log(data[0]["faceAttributes"]["emotion"])//ここで感情を取得できた
+        })
+
+        .fail(function(err) {
+          console.log("b")
+          $("#results").text(JSON.stringify(err));
+        })
+      });
   }
+
+  // スタートボタンを押したら呼び出される関数
   function face_start(){
     var id = setInterval(function(){
       console.log("count")
-    send_face();
-    if(count > 3){　
-      clearInterval(id);　//idをclearIntervalで指定している
-    }}, 5000);
+      send_face();
+      if(count > 3){　
+        clearInterval(id);　//idをclearIntervalで指定している
+      }}, 5000);
   }
 </script>
 
