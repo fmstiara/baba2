@@ -19,6 +19,13 @@ $(function(){
         console.log(e);
     })
 
+    $('#id').on('click', (e)=>{
+        baba.setStatus('turn');
+        let video = document.getElementById('id');
+        baba.face_start(video);
+    })
+
     $('header, footer').remove();
 })
+
 

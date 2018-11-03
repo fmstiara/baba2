@@ -14,7 +14,7 @@ export class Baba extends SkyWay{
         this.choiced = null;
         this.connections = {}
         this.status = '';
-        
+
         console.log('new Baba instance')
 
         this.events = {}
@@ -33,8 +33,7 @@ export class Baba extends SkyWay{
     on(_name = "test", callback){
         let _element = document.createElement('div');
         let _event = new Event(_name)
-        console.log(callback());
-        _element.addEventListener(_name, callback());
+        _element.addEventListener(_name, callback);
         
         this.events[_name] = {
             element: _element,
@@ -44,14 +43,12 @@ export class Baba extends SkyWay{
 
     dispatch(_name = "test"){
         const self = this;
-        console.log('trigger :'+_name)
         if(self.events[_name]){
             let el = self.events[_name]['element'];
             let evt = self.events[_name]['event'];
-            console.log(el, evt);
             el.dispatchEvent(evt);
         } else {
-            console.log('そのイベントは存在しません');
+            // console.log('そのイベントは存在しません');
         }
     }
 
