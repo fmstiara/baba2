@@ -1,5 +1,6 @@
 import { SkyWay } from './skyway';
 import { Card } from './card';
+import { send_face } from './face'
 
 export class Baba extends SkyWay{
     constructor(_user_id, _roomName){
@@ -12,28 +13,40 @@ export class Baba extends SkyWay{
         this.rank = null;
         this.choiced = null;
         this.connections = {}
+        this.status = '';
 
         console.log('new Baba instance')
 
         this.events = {}
     }
 
+    face_start(_target_video){
+        let id = setInterval(function(){
+            if(this.status == 'turn'){
+                send_face(_target_video);
+            } else {
+                clearInterval(id)
+            }
+        }, 5000);
+    }
+
     on(_name = "test", callback){
         let _element = document.createElement('div');
         let _event = new Event(_name)
+        _element.addEventListener(_name, callback);
+        
         this.events[_name] = {
             element: _element,
             event: _event
         }
-        _element.addEventListener(_name, callback());
     }
 
     dispatch(_name = "test"){
         const self = this;
         if(self.events[_name]){
-            let element = self.events[_name].element;
-            let event = self.events[_name].event;
-            element.dispatchEvent(event);
+            let el = self.events[_name]['element'];
+            let evt = self.events[_name]['event'];
+            el.dispatchEvent(evt);
         } else {
             // console.log('そのイベントは存在しません');
         }
@@ -91,7 +104,7 @@ export class Baba extends SkyWay{
 
                     for(let i=0; i<members.length; i++){
                         if(members[i] != self.peer.id){
-                            self.connections[members[i]] = self.peer(members[i])
+                            self.connections[members[i]] = self.peer.call(members[i])
                         }
                     }
 
@@ -103,7 +116,7 @@ export class Baba extends SkyWay{
                         self.setTakeUser();
 
                         // 他のユーザにも情報を投げる。
-                        self.emit('init', null,self.roomInfo);
+                        self.emit('init', null, self.roomInfo);
                     }
                 })
                 //
@@ -153,24 +166,29 @@ export class Baba extends SkyWay{
 
         // 各種イベント定義
         self.room.on('data', d => {
-            console.log(d);
-            const eventName = d['event'];
-            const data = d['data'];
+            const raw = d['data']
+            const eventName = raw['event'];
+            const data = raw['data'];
 
-            if(eventName=='init'){
+            console.log(d);
+            console.log(raw);
+            console.log(eventName, data);
+
+            if(eventName === 'init'){
                 // 最初にカードを配られたとき
                 self.roomInfo = data;
                 console.log(data);
 
                 // 自分がカードを取る人を決定
                 self.setTakeUser();
+                self.dispatch('init')
 
-            } else if(eventName=='choice'){
+            } else if(eventName === 'choice'){
                 // data['choice']番目のカードを取ろうとしている
                 self.choiced = data['index'];
                 self.dispatch('choiced');
 
-            } else if(eventName=='take'){
+            } else if(eventName === 'take'){
                 let index = data['index'];
                 let user_id = data['user_id'];
                 let cards = self.roomInfo['userCards'][user_id];
@@ -191,7 +209,7 @@ export class Baba extends SkyWay{
                     }
                 }
 
-            } else if(eventName=='throw'){
+            } else if(eventName === 'throw'){
                 // カードを捨てる
                 let index = data['index'];
                 let user_id = data['user_id'];
@@ -205,13 +223,13 @@ export class Baba extends SkyWay{
                 }
 
                 self.addTrash();
-            } else if(eventName=='push'){
+            } else if(eventName === 'push'){
                 let c = data['push']
                 let cards = self.roomInfo['userCards'][data['push_user_id']]
                 cards.push(c);
                 self.dispatch('change')
                 // self.shuffle(cards);
-            } else if(eventName=='win'){
+            } else if(eventName === 'win'){
                 self.roomInfo['winner'].push(data['winner']);
                 self.dispatch('anyone-win');
             }
@@ -341,5 +359,10 @@ export class Baba extends SkyWay{
         this.roomInfo['members'].splice(i, 1);
         this.setTakeUser();
         this.dispatch('anyone-win');
+    }
+
+    setStatus(_status = ''){
+        this.status = _status;
+        this.dispatch('status-change');
     }
 }

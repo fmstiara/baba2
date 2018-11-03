@@ -16,5 +16,4 @@ $(function(){
     })
 
     $('header, footer').remove();
-
 })
