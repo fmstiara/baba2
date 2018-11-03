@@ -9,6 +9,10 @@
   clear: both;
 }
 
+.container-fluid {
+	padding:0 !important;
+}
+
 .remoteVideos {
 	width:430px;
 	height:350px;
