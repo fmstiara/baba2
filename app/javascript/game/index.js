@@ -2,7 +2,8 @@ import { Baba } from './baba';
 
 $(function(){
     const roomname = $('#room').data('room')
-    const baba = new Baba(roomname)
+    const user_id = $('#room').data('id')
+    const baba = new Baba(user_id, roomname)
 
     $('#participate').on('click', (e)=>{
         e.preventDefault();
@@ -14,5 +15,6 @@ $(function(){
         baba.start(roomname);
     })
 
-    $('header').remove();
+    $('header, footer').remove();
+
 })
