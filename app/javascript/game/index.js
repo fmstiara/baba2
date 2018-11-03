@@ -14,5 +14,11 @@ $(function(){
         baba.start(roomname);
     })
 
-    $('header').remove();
+    baba.on('init', function(e){
+        console.log('game initするぜ!!')
+        console.log(e);
+    })
+
+    $('header, footer').remove();
 })
+
