@@ -58,13 +58,20 @@ $(function(){
             $(_selector).append(c);
             console.log(_cards[i]._mark+_cards[i]._num);
             if (_cards[i]._mark === "diamond") {
-                $('.'+i+'card_data').append('<img src="/assets/diamond.svg" class="diamond">');
-            } else if (_cards[i]._mark === "spade") {
+                $('.'+i+'card_data').append('<img src="/assets/diamond.png" class="diamond">');
+                $('.'+i+'card_data').append('<span>'+_cards[i]._num+'</span>');
+
+            } else if (_cards[i]._mark === "spede") {
                 $('.'+i+'card_data').append('<img src="/assets/spade.svg" class="spade">');
+                $('.'+i+'card_data').append('<span>'+_cards[i]._num+'</span>');
             } else if (_cards[i]._mark === "heart") {
-                $('.'+i+'card_data').append('<img src="/assets/heart.svg" class="heart">');
-            } else {
+                $('.'+i+'card_data').append('<img src="/assets/heart.png" class="heart">');
+                $('.'+i+'card_data').append('<span>'+_cards[i]._num+'</span>');
+            } else if (_cards[i]._mark === "club") {
                 $('.'+i+'card_data').append('<img src="/assets/clover.svg" class="clover">');
+                $('.'+i+'card_data').append('<span>'+_cards[i]._num+'</span>');
+            } else {
+                $('.'+i+'card_data').append('<img src="/assets/j.svg" class="clover">'); 
             }
             $('.'+i+'card_data').removeClass(i+'card_data');
 
