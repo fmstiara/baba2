@@ -3,16 +3,25 @@ import { Card } from './card';
 import { send_face } from './face'
 
 export class Baba extends SkyWay{
-    constructor(_user_id, _roomName){
-        super(_user_id);
+    constructor(){
+        super();
 
         this.roomInfo = null
         this.takeUser = {
             id: ''
         } //peerId
         this.rank = null;
-        this.choiced = null;
+
+        // 選択しているカード
+        this.choiceIndex = null;
+
+        // 選択されているカード
+        this.choicedIndex = null;
+
+        // 各ユーザとのコネクション
         this.connections = {}
+        
+        // 自分の状態(出番, 出番じゃない, 抜け)
         this.status = '';
 
         console.log('new Baba instance')
@@ -38,38 +47,28 @@ export class Baba extends SkyWay{
 
     on(_name = "test", callback){
         let _element = document.createElement('div');
-        let _event = new Event(_name)
         _element.addEventListener(_name, callback);
-        
         this.events[_name] = {
-            element: _element,
-            event: _event
+            element: _element
         }
     }
 
-    dispatch(_name = "test"){
+    dispatch(_name = "test", _detail = {}){
         const self = this;
         if(self.events[_name]){
             let el = self.events[_name]['element'];
-            let evt = self.events[_name]['event'];
+            let evt = new CustomEvent(_name, {detail: _detail});
             el.dispatchEvent(evt);
         } else {
             // console.log('そのイベントは存在しません');
         }
     }
 
-    emit(_eventName = "test", _targetUserId = null ,_data){
-        if(!_targetUserId){
-            this.room.send({
-                event: _eventName,
-                data: _data
-            })
-        } else {
-            this.connections[_targetUserId].send({
-                event: _eventName,
-                data: _data
-            });
-        }
+    emit(_eventName = "test", _data){
+        this.room.send({
+            event: _eventName,
+            data: _data
+        })
     }
 
     cardInit(){
@@ -108,11 +107,7 @@ export class Baba extends SkyWay{
                         t = e;
                     }
 
-                    for(let i=0; i<members.length; i++){
-                        if(members[i] != self.peer.id){
-                            self.connections[members[i]] = self.peer.call(members[i])
-                        }
-                    }
+                    self.connectionsInit(members);
 
                     if(self.room){
                         console.log('initialized');
@@ -122,12 +117,21 @@ export class Baba extends SkyWay{
                         self.setTakeUser();
 
                         // 他のユーザにも情報を投げる。
-                        self.emit('init', null, self.roomInfo);
+                        self.emit('init', self.roomInfo);
+                        self.dispatch('init');
                     }
                 })
                 //
             }
         })
+    }
+
+    connectionsInit(_members){
+        for(let i=0; i<_members.length; i++){
+            if(_members[i] != this.peer.id){
+                this.connections[_members[i]] = this.peer.connect(_members[i])
+            }
+        }
     }
 
     shuffle(array = []){
@@ -177,31 +181,35 @@ export class Baba extends SkyWay{
             const data = raw['data'];
 
             console.log(d);
-            console.log(raw);
-            console.log(eventName, data);
 
             if(eventName === 'init'){
                 // 最初にカードを配られたとき
+                console.log('on data: event '+eventName);
                 self.roomInfo = data;
-                console.log(data);
-
+                self.connectionsInit(data['members']);
+                
                 // 自分がカードを取る人を決定
                 self.setTakeUser();
                 self.dispatch('init')
 
             } else if(eventName === 'choice'){
                 // data['choice']番目のカードを取ろうとしている
-                self.choiced = data['index'];
-                self.dispatch('choiced');
+                console.log('on data: event '+eventName);
+                let index = data['index'];
+                let user_id = data['user_id'];
 
+                if(self.peer.id == user_id){
+                    self.choicedIndex = data['index'];
+                    self.dispatch('choiced');
+                }
             } else if(eventName === 'take'){
+                console.log('on data: event '+eventName);
                 let index = data['index'];
                 let user_id = data['user_id'];
                 let cards = self.roomInfo['userCards'][user_id];
                 cards.splice(index, 1);
 
                 if(user_id == self.peer.id){
-                    self.choiced = null;
                     self.dispatch('taken')
                     if(cards.length == 0){
                         // 自分、勝ち
@@ -216,6 +224,7 @@ export class Baba extends SkyWay{
                 }
 
             } else if(eventName === 'throw'){
+                console.log('on data: event '+eventName);
                 // カードを捨てる
                 let index = data['index'];
                 let user_id = data['user_id'];
@@ -230,12 +239,14 @@ export class Baba extends SkyWay{
 
                 self.addTrash();
             } else if(eventName === 'push'){
+                console.log('on data: event '+eventName);
                 let c = data['push']
                 let cards = self.roomInfo['userCards'][data['push_user_id']]
                 cards.push(c);
                 self.dispatch('change')
                 // self.shuffle(cards);
             } else if(eventName === 'win'){
+                console.log('on data: event '+eventName);
                 self.roomInfo['winner'].push(data['winner']);
                 self.dispatch('anyone-win');
             }
@@ -245,21 +256,26 @@ export class Baba extends SkyWay{
     choice(_index){
         // カードを選択
         // peerIdと選択したカードを送る
-        this.emit('choice', this.takeUser.id, {index: _index});
+        this.choiceIndex = _index;
+        this.emit('choice', {
+            index: _index,
+            user_id: this.takeUser.id
+        });
     }
 
-    take(_num){
+    take(_index){
         const self = this;
+        this.choiceIndex = null;
         return new Promise((resolve)=>{
             // カードを取る
-            self.emit('take',{
-                index: _num,
+            self.emit('take', {
+                index: _index,
                 user_id: self.takeUser.id //取られる人
             });
 
             let cards = self.roomInfo['userCards'][self.takeUser.id];
-            let c = cards[_num]
-            cards.splice(n, 1);
+            let c = cards[_index]
+            cards.splice(_index, 1);
             self.dispatch('take');
             resolve(c);
         })
@@ -287,7 +303,7 @@ export class Baba extends SkyWay{
                 // 勝ち
                 self.iWin();
             }
-            self.emit('throw',null,{
+            self.emit('throw', {
                 index: matchIndex,
                 user_id: self.peer.id
             })
@@ -300,7 +316,7 @@ export class Baba extends SkyWay{
         return new Promise((resolve)=>{
             let mycards = self.roomInfo['userCards'][self.peer.id];
             mycards.push(_card);
-            self.emit('push',null,{
+            self.emit('push', {
                 card: _card,
                 user_id: self.peer.id
             })
@@ -338,7 +354,8 @@ export class Baba extends SkyWay{
         // 自分がカードを取る人を決める。
         let members = this.roomInfo['members'];
         let myturn = members.indexOf(this.peer.id);
-        let next = (myturn >= members.length - 1)?(myturn+1):0
+        let next = (myturn < members.length - 1)?(myturn+1):0
+        console.log(this.peer.id, myturn, next);
         this.takeUser.id = members[next];
     }
 
@@ -347,13 +364,13 @@ export class Baba extends SkyWay{
     }
 
     getUserCards(_id){
-        return thi.roomInfo['userCards'][_id];
+        return this.roomInfo['userCards'][_id];
     }
 
     iWin(_id){
         this.rank = this.roomInfo['winner'].length + 1;
         this.roomInfo['winner'].push(this.peer.id)
-        this.emit('win', null,{
+        this.emit('win', {
             user: this.peer.id
         })
         this.dispatch('win');

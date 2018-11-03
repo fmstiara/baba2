@@ -4,7 +4,7 @@ export class SkyWay{
     constructor(_user_id){
         this.peer = new Peer({
             key: 'caf1fe56-c907-4957-8b12-d2e2ad93ac3a',
-            debug: 3 //あとで数字を下げてdebug内容を減らす
+            debug: 2 //あとで数字を下げてdebug内容を減らす
         });
 
         this.metadata
@@ -19,6 +19,7 @@ export class SkyWay{
     peerInit(){
         this.peer.on('open', () => {
             // Get things startedbin/
+            console.log('my peer id: '+this.peer.id);
             this.getMediaSources();
         });
 

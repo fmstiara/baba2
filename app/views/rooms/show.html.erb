@@ -23,7 +23,7 @@
 
       <div class="my-video-wrapper">
         <div class="action">
-          <h2 id="room" data-room="<%= @room.name %>"><%= "#{@room.name}部屋" %></h2>
+          <h2 id="room" data-room="<%= @room.name %>" data-id="<%= current_user.id%>"><%= "#{@room.name}部屋" %></h2>
           <div id="step2">
             <button id="participate" class="btn btn-success">参加する</button>
             <button id="game-start" class="btn btn-success">ゲーム開始</button>
