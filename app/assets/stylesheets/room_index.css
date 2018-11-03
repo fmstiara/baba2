@@ -23,6 +23,8 @@
 	font-size: 100px;
 	color: #fff;
 	cursor: default;
+	font-weight: 100;
+	letter-spacing: 20px;
 }
 
 .start_btn {
