@@ -52,10 +52,21 @@ $(function(){
         for(let i=0; i<_cards.length; i++){
             let c = $(
                 '<div class="card card_wrapper" data-index="'+i+'">'+
-                '<p class="card_content>'+_cards[i]._mark+_cards[i]._num+'</p>'+
+                '<p class="'+i+"card_data"+'">'+_cards[i]._mark+_cards[i]._num+'</p>'+
                 '</div>'
             );
             $(_selector).append(c);
+            console.log(_cards[i]._mark+_cards[i]._num);
+            if (_cards[i]._mark === "diamond") {
+                $('.'+i+'card_data').append('<img src="/assets/diamond.svg" class="diamond">');
+            } else if (_cards[i]._mark === "spade") {
+                $('.'+i+'card_data').append('<img src="/assets/spade.svg" class="spade">');
+            } else if (_cards[i]._mark === "heart") {
+                $('.'+i+'card_data').append('<img src="/assets/heart.svg" class="heart">');
+            } else {
+                $('.'+i+'card_data').append('<img src="/assets/clover.svg" class="clover">');
+            }
+            $('.'+i+'card_data').removeClass(i+'card_data');
 
             c.on('click', (e)=>{
                 console.log(e.target);
