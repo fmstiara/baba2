@@ -18,19 +18,24 @@
           <span class="header_logo">ばばぬき</span>
         </div>
         <div class="header_center header_item">
-          <%= form_with model: @room do |form| %>
-            <%= form.text_field :name %>
-            <%= submit_tag "作成" %>
+          <%= form_with model: @room, class: "room_form" do |form| %>
+            <%= form.text_field :name, class: "room_input" %>
+            <%= submit_tag "作成", class: "room_submit" %>
           <% end %>
         </div>
       </header>
     <% end %>
     <%= yield %>
     <% if user_signed_in? %>
-      <footer class="footer">
-        <% if user_signed_in? %>
-          <%= link_to "ログアウト", logout_path %>
-        <% end %>
+      <footer class="footer clearfix">
+        <div class="footer_right">
+          <% if user_signed_in? %>
+            <%= link_to "ログアウト", logout_path %>
+          <% end %>
+        </div>
+        <div class="footer_center">
+          Copyright(C)2018 キャンプ All Rights Reserved.
+        </div>
       </footer>
     <% end %>
   </body>

@@ -113,6 +113,11 @@ export class SkyWay{
           const el = $('#' + id).find('video').get(0);
           el.srcObject = stream;
           el.play();
+          console.log($('.remoteVideos').length)
+          if ($('.remoteVideos').length >= 4){
+            console.log("aaaaaaaa2")
+            $('.remoteVideos').css('width', '290px');
+          }
         });
 
         room.on('removeStream', stream => {
@@ -135,6 +140,7 @@ export class SkyWay{
         if(!roomName){return;}
         this.room = this.peer.joinRoom('sfu_video_' + roomName, {mode: 'sfu', stream: this.localStream, metadata: {}});
         this.onCall(this.room);
+        console.log("ss")
     }
 
     endCall(){

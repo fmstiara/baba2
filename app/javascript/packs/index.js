@@ -1,7 +1,7 @@
 $(function() {
 
 	$(document).on("click", ".start_btn", function() {
-		$(".top_text").hide();
+		$(".top_text, .start_btn").hide();
 		$(".sign_modal, .sign_in_modal").show();
 	})
 
@@ -15,4 +15,13 @@ $(function() {
 		}
 	})
 
+	var counter = 0;
+	var timerId = setInterval(function(){
+		$(".top_title span").eq(counter).css("display", "inline-block");
+		$(".top_title span").eq(counter).addClass("magictime vanishIn");
+		if (counter >= 4){
+				clearInterval(timerId);
+		}
+		counter++;
+	}, 200);
 })

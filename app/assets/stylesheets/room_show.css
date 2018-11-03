@@ -2,6 +2,9 @@
  	margin:0;
  	padding:0;
  }
+body {
+	background-color:green;
+}
 
  .clearfix::after{
   content: "";
@@ -14,8 +17,8 @@
 }
 
 .remoteVideos {
-	width:430px;
-	height:350px;
+	/*相手のビデオタグの大きさ*/
+	width:460px;
 }
 
 .my-video-wrapper {
@@ -27,13 +30,12 @@
 .their-video-wrapper{
 	float:left;
 	width:70%;
-	padding:100px 0;
+	padding-bottom:100px;
+	padding-top:200px;
 }
-
 
 #their-videos div {
 	margin:0 auto;
-	border:solid 1px;
 	float:left;
 	margin:30px 20px;
 }
@@ -55,7 +57,7 @@
 #their-cards {
 	width:70%;
 	height:100px;
-	background-color:orange;
+	background-color:black;
 	position: fixed;
 	bottom: 0;
 	left:0;
@@ -66,8 +68,8 @@
 	position:fixed;
 	top:0;
 	left:0;
-	height:100px;
-	background-color:orange;
+	height:200px;
+	background-color:black;
 }
 
 #step2 {
@@ -77,12 +79,12 @@
 #canvas {display:none;}
 
 .my-video-con {
-	height:300px;
+	height:320px;
 	float:right;
 	position: fixed;
-	bottom: 0;
+	bottom: 0px;
 	right:0;
-	border:10px solid green;
+	border:10px solid blue;
 }
 
 .flash_red {
@@ -98,3 +100,39 @@
     border: 10px solid transparent;
   }
 }
+
+
+
+
+
+
+
+
+/* shota edit */
+
+
+.card_wrapper {
+	height: 100px;
+	width: 100px;
+	float: left
+}
+
+.card_wrapper p {
+	display: inline-block;
+	height: 100px;
+	width: 100px;
+	margin-bottom: 0;
+	text-align: center;
+	line-height: 100px;
+}
+
+.card img {
+	width: 85px;
+	height: 85px;
+	position: absolute;
+	top: 7.5px;
+	left: 7.5px;
+}
+
+
+/* shota edit */
