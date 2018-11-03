@@ -41,10 +41,6 @@
 #my-video {
 	width:400px;
 	height:300px;
-	float:right;
-	position: fixed;
-	bottom: 0;
-	right:0;
 }
 
 
@@ -79,3 +75,26 @@
 }
 
 #canvas {display:none;}
+
+.my-video-con {
+	height:300px;
+	float:right;
+	position: fixed;
+	bottom: 0;
+	right:0;
+	border:10px solid green;
+}
+
+.flash_red {
+	border:10px solid red;
+  	animation: borderFlashing 1s ease infinite alternate;
+}
+
+@keyframes borderFlashing {
+  0% {
+    border: 10px solid red;
+  }
+  100% {
+    border: 10px solid transparent;
+  }
+}
