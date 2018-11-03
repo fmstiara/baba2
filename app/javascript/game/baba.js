@@ -30,12 +30,18 @@ export class Baba extends SkyWay{
     }
 
     face_start(_target_video){
+        const self = this;
         let id = setInterval(function(){
-            if(this.status == 'turn'){
+            console.log("a")
+            if(self.status == 'turn'){
+                console.log("s")
                 send_face(_target_video);
             } else {
-                clearInterval(id)
+                // clearInterval(id);
             }
+
+            //テストのため
+            send_face(_target_video);
         }, 5000);
     }
 

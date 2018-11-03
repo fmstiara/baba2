@@ -7,6 +7,7 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_link_tag "animate.css" %>
+    <%= stylesheet_link_tag "magic.min.css" %>
     <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c" rel="stylesheet">
   </head>
 
@@ -25,12 +26,12 @@
       </header>
     <% end %>
     <%= yield %>
-   <!--  <% if user_signed_in? %>
+    <% if user_signed_in? %>
       <footer class="footer">
         <% if user_signed_in? %>
           <%= link_to "ログアウト", logout_path %>
         <% end %>
       </footer>
-    <% end %> -->
+    <% end %>
   </body>
 </html>

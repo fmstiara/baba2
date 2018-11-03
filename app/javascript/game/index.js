@@ -71,6 +71,13 @@ $(function(){
             })
         }
     }
+    $("#face_start").on("click", (e)=>{
+       baba.setStatus("turn");
+       console.log("btn")
+       let video = document.getElementById("my-video");
+       baba.face_start(video);
+   })
+
 })
 
 
