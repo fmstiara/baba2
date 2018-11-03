@@ -43,3 +43,5 @@ Baba.onで用意したイベント
 - win(自分が勝ったとき)
 - anyone-win(他人が勝ったとき)
 - end(ゲーム終了=札が52枚に達した)
+- status-change(自分のステータスが変わったとき)
+    - status = turn, win, not-turn
