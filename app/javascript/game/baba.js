@@ -70,7 +70,7 @@ export class Baba extends SkyWay{
             cards.push(new Card(i, "heart"));
             cards.push(new Card(i, "club"));
             cards.push(new Card(i, "diamond"));
-            cards.push(new Card(i, "spede"));
+            cards.push(new Card(i, "spade"));
         }
         cards.push(new Card(-1, "joker"))
         return cards

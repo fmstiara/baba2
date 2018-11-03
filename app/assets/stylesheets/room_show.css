@@ -3,10 +3,10 @@
  	padding:0;
  }
 body {
-	background-color:green;
+	/* background-color:green; */
 }
 
- .clearfix::after{
+.clearfix::after{
   content: "";
   display: block;
   clear: both;
@@ -21,17 +21,10 @@ body {
 	width:460px;
 }
 
-.my-video-wrapper {
-	float:right;
-	height:100%;
-	width:30%;
-}
-
 .their-video-wrapper{
-	float:left;
-	width:70%;
-	padding-bottom:100px;
-	padding-top:200px;
+	height: 100vh;
+	width:75%;
+	padding: 150px 0;
 }
 
 #their-videos div {
@@ -39,12 +32,6 @@ body {
 	float:left;
 	margin:30px 20px;
 }
-
-#my-video {
-	width:400px;
-	height:300px;
-}
-
 
 #room {
 	text-align:center;
@@ -54,21 +41,14 @@ body {
 	display:none;
 }
 
-#their-cards {
-	width:70%;
-	height:100px;
+#my-cards {
+	height:150px;
 	background-color:black;
-	position: fixed;
-	bottom: 0;
-	left:0;
+
 }
 
-#my-cards {
-	width:70%;
-	position:fixed;
-	top:0;
-	left:0;
-	height:200px;
+#their-cards {
+	height:150px;
 	background-color:black;
 }
 
@@ -78,12 +58,17 @@ body {
 
 #canvas {display:none;}
 
+#my-video {
+	width:400px;
+	height:300px;
+}
+
 .my-video-con {
 	height:320px;
 	float:right;
 	position: fixed;
-	bottom: 0px;
-	right:0;
+	bottom: 10px;
+	right: 20px;
 	border:10px solid blue;
 }
 
@@ -114,7 +99,7 @@ body {
 .card_wrapper {
 	height: 100px;
 	width: 100px;
-	float: left
+	float: left;
 }
 
 .card_wrapper p {
@@ -123,7 +108,10 @@ body {
 	width: 100px;
 	margin-bottom: 0;
 	text-align: center;
-	line-height: 100px;
+	line-height: 90px;
+
+	font-size: 24px;
+	color: aliceblue;
 }
 
 .card img {
@@ -134,5 +122,24 @@ body {
 	left: 7.5px;
 }
 
+.diamond {
+	background-image: url('/assets/diamond.svg');
+	background-size: cover;
+}
+
+.heart {
+	background-image: url('/assets/heart.svg');
+	background-size: cover;
+}
+
+.spade {
+	background-image: url('/assets/spade.svg');
+	background-size: cover;
+}
+
+.club {
+	background-image: url('/assets/clover.svg');
+	background-size: cover;
+}
 
 /* shota edit */

@@ -107,31 +107,35 @@ $(function(){
         $(_selector).empty();
         for(let i=0; i<_cards.length; i++){
             let c = $(
-                '<div class="card card_wrapper" data-index="'+i+'">'+
-                '<p class="'+i+"card_data"+'">'+_cards[i]._mark+_cards[i]._num+'</p>'+
+                '<div class="card card_wrapper '+_cards[i].mark+'" data-index="'+i+'">'+
+                    '<p'+' data-index="'+i+'">' +_cards[i].num+'</p>'+
                 '</div>'
             );
             $(_selector).append(c);
-            console.log(_cards[i]._mark+_cards[i]._num);
-            if (_cards[i]._mark === "diamond") {
-                $('.'+i+'card_data').append('<img src="/assets/diamond.svg" class="diamond">');
-            } else if (_cards[i]._mark === "spade") {
-                $('.'+i+'card_data').append('<img src="/assets/spade.svg" class="spade">');
-            } else if (_cards[i]._mark === "heart") {
-                $('.'+i+'card_data').append('<img src="/assets/heart.svg" class="heart">');
-            } else {
-                $('.'+i+'card_data').append('<img src="/assets/clover.svg" class="clover">');
-            }
-            $('.'+i+'card_data').removeClass(i+'card_data');
+            // console.log(_cards[i].mark+_cards[i].num);
+            // if (_cards[i].mark === "diamond") {
+            //     $('.'+i+'card_data').append('<img src="/assets/diamond.svg" class="diamond">');
+            // } else if (_cards[i].mark === "spade") {
+            //     $('.'+i+'card_data').append('<img src="/assets/spade.svg" class="spade">');
+            // } else if (_cards[i].mark === "heart") {
+            //     $('.'+i+'card_data').append('<img src="/assets/heart.svg" class="heart">');
+            // } else {
+            //     $('.'+i+'card_data').append('<img src="/assets/clover.svg" class="clover">');
+            // }
+            // $('.'+i+'card_data').removeClass(i+'card_data');
 
             if(addEvent){
                 c.on('click', (e)=>{
-                    const index = e.target.dataset.index;
-                    if(!baba.choiceIndex || baba.choiceIndex != index){
-                        // 選択しているカードが無いとき
-                        baba.choice(index);
-                    } else if(baba.choiceIndex == index){
-                        baba.take(index);
+                    if(baba.status == "myturn"){
+                        const index = e.target.dataset.index;
+                        if(!baba.choiceIndex || baba.choiceIndex != index){
+                            // 選択しているカードが無いとき
+                            baba.choice(index);
+                        } else if(baba.choiceIndex == index){
+                            baba.take(index);
+                        }
+                    } else {
+                        console.log("あなたの出番じゃありません");
                     }
                 })
             }

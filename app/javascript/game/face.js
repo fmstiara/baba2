@@ -4,9 +4,9 @@ export function send_face(_target_video){
     canvas.height = _target_video.videoHeight;
 
     let video = _target_video;
-    console.log(video)
+    // console.log(video)
     canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);//この行でスクリーンショットを取っている
-    console.log(canvas)
+    // console.log(canvas)
     let data = canvas.toDataURL('image/jpeg');
     fetch(data).then(res => res.blob())
         .then(blobData => {
@@ -34,7 +34,7 @@ export function send_face(_target_video){
                 console.log(data[0]["faceAttributes"]["emotion"])//ここで感情を取得できた
                 if (data[0]["faceAttributes"]["emotion"]["neutral"] < 0.9){
                     // #焦っている
-                     $(".my-video-con").css("border", "none");
+                    $(".my-video-con").css("border", "none");
                     $(".my-video-con").addClass("flash_red");
                     console.log("cheage")
                 } else {
