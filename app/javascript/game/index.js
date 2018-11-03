@@ -51,8 +51,8 @@ $(function(){
         $(_selector).empty();
         for(let i=0; i<_cards.length; i++){
             let c = $(
-                '<div class="card" data-index="'+i+'">'+
-                '<p>'+_cards[i]._mark+_cards[i]._num+'</p>'+
+                '<div class="card card_wrapper" data-index="'+i+'">'+
+                '<p class="card_content>'+_cards[i]._mark+_cards[i]._num+'</p>'+
                 '</div>'
             );
             $(_selector).append(c);
