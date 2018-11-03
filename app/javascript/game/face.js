@@ -39,7 +39,7 @@ export function send_face(_target_video){
                     console.log("cheage")
                 } else {
                     $(".my-video-con").removeClass("flash_red");
-                    $(".my-video-con").css("border", "10px solid green");
+                    $(".my-video-con").css("border", "10px solid blue");
                 }
                 // ここで_target_videoのボーダカラーチェンジ
             })
