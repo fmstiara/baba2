@@ -2,7 +2,8 @@ import { Baba } from './baba';
 
 $(function(){
     const roomname = $('#room').data('room')
-    const baba = new Baba(roomname)
+    const user_id = $('#room').data('id')
+    const baba = new Baba(user_id, roomname)
 
     $('#participate').on('click', (e)=>{
         e.preventDefault();
@@ -14,11 +15,6 @@ $(function(){
         baba.start(roomname);
     })
 
-    baba.on('init', function(e){
-        console.log('game initするぜ!!')
-        console.log(e);
-    })
-
     $('header, footer').remove();
-})
 
+})

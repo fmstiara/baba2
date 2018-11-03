@@ -1,7 +1,7 @@
 import Peer from 'skyway-js'
 
 export class SkyWay{
-    constructor(){
+    constructor(_user_id){
         this.peer = new Peer({
             key: 'caf1fe56-c907-4957-8b12-d2e2ad93ac3a',
             debug: 3 //あとで数字を下げてdebug内容を減らす
@@ -12,6 +12,8 @@ export class SkyWay{
         this.room = null;
        
         this.peerInit();
+        this.members = [] 
+      
     }
 
     peerInit(){
