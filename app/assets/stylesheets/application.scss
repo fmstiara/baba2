@@ -13,3 +13,93 @@
  *= require_tree .
  *= require_self
  */
+
+/* reset css */
+/* normalize? */
+
+@import "bootstrap";
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: "M PLUS Rounded 1c";
+}
+
+html, body {
+	height: 100%;
+}
+
+/* header */
+
+header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	border-style: solid;
+  border-width: 150px calc(200vw) 0 0;
+  border-color: #eee transparent transparent transparent;
+}
+
+
+.header_item {
+	display: inline-block;
+	width: calc(100em / 3);
+	position: fixed;
+	top: 0;
+	z-index: 300;
+	height: 130px;
+	line-height: 130px;
+}
+
+.header_left {
+	left: 10%;
+}
+
+.logo_img {
+	width: 16px;
+}
+
+.header_center {
+	margin: 0 auto;
+	left: 40%;
+}
+
+
+/* header */
+
+/* main */
+
+
+
+/* main */
+
+/* footer */
+
+.footer {
+	width: 100%;
+	height: 50px;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+}
+
+/* footer */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,26 @@
+<h3>User Registration</h3>
+<form class="new_user" action="/users" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="cJTTqAUspmtFN5KCcqLjJiLZLnDKuKQxDxV071S4ZwMrxQ23qRPVBz8k4oZKhtKsjcd4XNWk5D5UKExfnC5EPQ==">
+  
+
+  <div class="field">
+    <label for="sign_up_user_name">Name</label><br>
+    <input autofocus="autofocus" autocomplete="name" type="text" name="user[name]" id="sign_up_user_name">
+  </div>
+
+  <div class="field">
+    <label for="sign_up_user_email">Email</label><br>
+    <input autofocus="autofocus" autocomplete="email" type="email" value="" name="user[email]" id="sign_up_user_email">
+  </div>
+
+  <div class="field">
+    <label for="sign_up_user_password">Password</label>
+    <em>(6 characters minimum)</em>
+    <br>
+    <input autocomplete="new-password" type="password" name="user[password]" id="sign_up_user_password" aria-autocomplete="list">
+  </div>
+
+  <div class="actions">
+    <input type="submit" name="commit" value="Sign up" data-disable-with="Sign up">
+  </div>
+</form>
+<span class="sign_in_btn sign_btn">Log in</span>

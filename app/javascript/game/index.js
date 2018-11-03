@@ -13,4 +13,6 @@ $(function(){
         e.preventDefault();
         baba.start(roomname);
     })
+
+    $('header').remove();
 })
