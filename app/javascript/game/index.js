@@ -22,55 +22,113 @@ $(function(){
         let take = baba.getUserCards(baba.takeUser.id);
 
         appendCards('#my-cards', my);
-        appendCards('#their-cards', take);
+        appendCards('#their-cards', take, true);
+
+        let members = baba.roomInfo['members']
+        if(baba.peer.id == members[0]){
+            baba.setStatus('myturn')
+        } else {
+            baba.setStatus('anyoneturn')
+        }
+    })
+
+    baba.on('status-change', ()=>{
+        console.log('current status: '+baba.status);
+        if(baba.status == 'myturn'){
+            // idがtakeUser.idと同じvideoを取得
+            // let video = document.getElementById('')
+            // baba.face_start()
+
+        } else if(baba.status == 'anyoneturn'){
+
+        } else if(baba.status == 'winner'){
+
+        }
     })
 
     baba.on('choiced', ()=>{
         console.log(baba.choicedIndex+"番目のカードが選択されました。")
     })
 
-    baba.on('take', ()=>{
+    baba.on('take', (e)=>{
+        let take = baba.getUserCards(baba.takeUser.id);
+        appendCards('#their-cards', take, true);
 
+        // e.detail にカードが入ってる
+        let c = e.detail
+        console.log('card', c);
+        baba.getMatchIndex(c).then(res=>{
+            if(res != null){
+                // throuwCard実行
+                baba.throwCard(res);
+            } else {
+                // pushCard実行
+                baba.pushCard(c)
+            }
+        })
+    })
+
+    baba.on('change', (e)=>{
+        let take = baba.getUserCards(baba.takeUser.id);
+        appendCards('#their-cards', take, true);
+    })
+
+    baba.on('push', (e)=>{
+        let my = baba.getUserCards(baba.peer.id);
+        appendCards('#my-cards', my);
+    })
+
+    baba.on('throw', (e)=>{
+        let my = baba.getUserCards(baba.peer.id);
+        appendCards('#my-cards', my);
     })
 
     baba.on('taken', ()=>{
-        console.log(baba.choicedIndex+"番目のカードが取られました。");
         baba.choicedIndex = null;
-        
+        let my = baba.getUserCards(baba.peer.id);
+        appendCards('#my-cards', my);
+        baba.setStatus('myturn');
     })
 
-    baba.on('push', ()=>{
-
+    baba.on('win', ()=>{
+        console.log('あなたの勝ちです');
+        $('#my-cards').hide();
+        $('#their-cards').hide();
+        baba.setStatus('end');
     })
 
-    baba.on('throw', ()=>{
-
+    baba.on('anyone-win', (e)=>{
+        console.log(e.detail+"さんが勝ちました");
+        let take = baba.getUserCards(baba.takeUser.id);
+        appendCards('#their-cards', take, true);
     })
 
-    function appendCards(_selector, _cards = []){
+    function appendCards(_selector, _cards = [], addEvent = false){
         $(_selector).empty();
         for(let i=0; i<_cards.length; i++){
             let c = $(
                 '<div class="card" data-index="'+i+'">'+
-                '<p>'+_cards[i]._mark+_cards[i]._num+'</p>'+
+                '<p>'+_cards[i].mark+_cards[i].num+'</p>'+
                 '</div>'
             );
             $(_selector).append(c);
 
-            c.on('click', (e)=>{
-                console.log(e.target);
-                const index = e.target.dataset.index;
-                console.log('index:', index);
-
-                if(!baba.choiceIndex || baba.choiceIndex != index){
-                    // 選択しているカードが無いとき
-                    baba.choice(index);
-                } else if(baba.choiceIndex == index){
-                    baba.take(index);
-                }
-            })
+            if(addEvent){
+                c.on('click', (e)=>{
+                    const index = e.target.dataset.index;
+                    if(!baba.choiceIndex || baba.choiceIndex != index){
+                        // 選択しているカードが無いとき
+                        baba.choice(index);
+                    } else if(baba.choiceIndex == index){
+                        baba.take(index);
+                    }
+                })
+            }
         }
     }
+
+
+
     $("#face_start").on("click", (e)=>{
        baba.setStatus("turn");
        console.log("btn")
