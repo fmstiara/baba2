@@ -6,14 +6,18 @@
 					<%= link_to room_path(room.id) do %>
 						<div class="room_content">
 							<div class="room_name">
-								<%= room.name %>
-							</div>
+								<%= room.name %>部屋
+							</div><br>
 							<div class="room_create_user">
-								<%= room.users.first.name %>
-							</div>
+								オーナー：<%= room.users.first.name %>
+							</div><br>
 							<div class="room_count_user">
-								<%= room.user_rooms.count %>
 							</div>
+
+							<span class="room_icon heart_icon"><img src="/assets/heart.png"></span>
+							<span class="room_icon diamond_icon"><img src="/assets/diamond.png"></span>
+							<span class="room_icon spade_icon"><img src="/assets/spade.svg"></span>
+							<span class="room_icon clover_icon"><img src="/assets/clover.svg"></span>
 						</div>
 					<% end %>
 				</div>

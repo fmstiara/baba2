@@ -52,7 +52,7 @@ $(function(){
         for(let i=0; i<_cards.length; i++){
             let c = $(
                 '<div class="card card_wrapper" data-index="'+i+'">'+
-                '<p class="'+i+"card_data"+'">'+_cards[i]._mark+_cards[i]._num+'</p>'+
+                '<p class="'+i+"card_data"+'"></p>'+
                 '</div>'
             );
             $(_selector).append(c);
