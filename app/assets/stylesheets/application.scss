@@ -10,7 +10,7 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
+ * require_tree .
  *= require_self
  */
 
@@ -49,8 +49,8 @@ header {
 	position: fixed;
 	top: 0;
 	z-index: 300;
-	height: 100px;
-	line-height: 100px;
+	height: 70px;
+	line-height: 70px;
 }
 
 .header_left {
@@ -59,6 +59,7 @@ header {
 
 .header_logo {
 	font-size: 32px;
+	font-weight: bold;
 }
 
 .header_center {

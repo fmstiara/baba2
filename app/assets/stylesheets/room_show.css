@@ -134,5 +134,12 @@ body {
 	left: 7.5px;
 }
 
+.card span {
+	display: inline-block;
+	color: #fff;
+	z-index: 10000;
+}
+
+
 
 /* shota edit */

@@ -73,6 +73,12 @@
 
 /* after login */
 
+body {
+	background-image: url('/assets/header.jpg');
+	background-position: center;
+	background-size: cover;
+}
+
 input[type=text] {
 	line-height: 0!important;
 }
@@ -83,13 +89,14 @@ input[type=text] {
 
 .index_wrapper {
 	position: fixed;
-	top: 100px;
+	top: 70px;
 	bottom: 50px;
 	right: 8%;
 	left: 8%;
 	width: 84%;
 	overflow: scroll;
 }
+
 
 .index_room {
 	width: 100%;
@@ -108,13 +115,65 @@ input[type=text] {
 	border: 1px solid black;
 	border-radius: 5px;
 	height: 200px;
-	text-decoration: none;
+	background-color: #fff;
+	color: #000;
+	position: relative;
 }
 
 .room_name, .room_create_user, .room_count_user {
+	display: inline-block;
+	text-decoration: none;
+	width: 100%;
 }
 
+.room_name {
+	margin-top: 40px;
+	font-size: 24px;	
+}
 
+.room_create_user {
+	margin-top: 16px;
+}
+
+.room_count_user {
+	margin-top: 16px;
+}
+
+.room_icon {
+	position: absolute;
+}
+
+.room_icon img {
+	width: 20px;
+}
+
+.heart_icon {
+	top: 5px;
+	left: 10px;
+}
+
+.diamond_icon {
+	bottom: 10px;
+	right: 10px;
+}
+
+.spade_icon {
+	top: 5px;
+	right: 10px;
+}
+
+.clover_icon {
+	bottom: 10px;
+	left: 10px;
+}
+
+footer {
+	text-align: center;
+}
+
+.footer_right a {
+	color: white;
+}
 
 /* after login */
 
