@@ -1,5 +1,5 @@
 class RoomsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:index]
   def index
     @room = Room.new
     @rooms = Room.all
@@ -7,6 +7,7 @@ class RoomsController < ApplicationController
 
   def show
     @room = Room.find(params[:id])
+    UserRoom.find_or_create_by(user_id: current_user.id, room_id: @room.id)
   end
 
   def create

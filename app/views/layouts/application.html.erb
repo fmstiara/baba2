@@ -6,12 +6,31 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag "animate.css" %>
+    <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c" rel="stylesheet">
   </head>
 
   <body>
     <% if user_signed_in? %>
-      <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+      <header>
+        <div class="header_left header_item">
+          <span class="header_logo">ばばぬき</span>
+        </div>
+        <div class="header_center header_item">
+          <%= form_with model: @room do |form| %>
+            <%= form.text_field :name %>
+            <%= submit_tag "作成" %>
+          <% end %>
+        </div>
+      </header>
     <% end %>
     <%= yield %>
+    <% if user_signed_in? %>
+      <footer class="footer">
+        <% if user_signed_in? %>
+          <%= link_to "ログアウト", logout_path %>
+        <% end %>
+      </footer>
+    <% end %>
   </body>
 </html>

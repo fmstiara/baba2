@@ -14,10 +14,5 @@ $(function(){
         baba.start(roomname);
     })
 
-    // let e = document.createEvent('Event');
-    // e.initEvent(eventName, true,true);
-    // _DOM.addEventListener('test' , function(){
-
-    // })
-    
+    $('header').remove();
 })

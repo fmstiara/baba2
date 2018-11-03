@@ -1,0 +1,22 @@
+<h3 class="user_login">Login</h3>
+<form class="new_user" action="/users/sign_in" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="sdSi8zK6fcCcO0rUvh1VeJ68hcZbsMt+pEqTFdzTTWs0gHym7Bo9z/NU9sse417ilnma/lONdWpzhl6rU41DDA==">
+  <div class="field">
+    <label for="sign_in_user_name">Name</label><br>
+    <input autofocus="autofocus" autocomplete="name" type="text" name="user[name]" id="sign_in_user_name">
+  </div>
+
+  <div class="field">
+    <label for="sign_in_user_password">Password</label><br>
+    <input autocomplete="current-password" type="password" name="user[password]" id="sign_in_user_password">
+  </div>
+
+    <div class="field">
+      <input name="user[remember_me]" type="hidden" value="0"><input type="checkbox" value="1" name="user[remember_me]" id="sign_in_user_remember_me">
+      <label for="sign_in_user_remember_me">Remember me</label>
+    </div>
+
+  <div class="actions">
+    <input type="submit" name="commit" value="Log in" data-disable-with="Log in">
+  </div>
+</form>
+<span class="sign_up_btn sign_btn">Sign up</span>

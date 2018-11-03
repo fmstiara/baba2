@@ -1,0 +1,17 @@
+$(function() {
+
+	$(document).on("click", ".start_btn", function() {
+		$(".top_text").hide();
+		$(".sign_modal, .sign_in_modal").show();
+	})
+
+	$(document).on("click", ".sign_btn", function() {
+		if ($(this).hasClass("sign_up_btn")) {
+			$(".sign_in_modal").hide();
+			$(".sign_up_modal").show();
+		} else {
+			$(".sign_up_modal").hide();
+			$(".sign_in_modal").show();
+		}
+	})
+})

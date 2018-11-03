@@ -1,13 +1,32 @@
-
-<h2>ババ抜き</h2>
-<h3>部屋作成</h3>
-
-<%= form_with model: @room do |form| %>
-  <%= form.text_field :name %>
-  <%= submit_tag "作成" %>
+<% if user_signed_in? %>
+	<main class="index_wrapper">
+		<h3>部屋一覧</h3>
+		<% @rooms.each do |room| %>
+		  <%= link_to room.name, room_path(room.id) %><br>
+		<% end %>
+	</main>
+<% else %>
+	<main class="top_wrapper">
+		<img src="/assets/top.jpg" class="top_img">
+		<div class="top_text">
+			<div class="top_title animated rubberBand">ばばぬき</div>
+			<div class="start_btn btn btn-danger">start</div>
+		</div>
+		<div class="sign_modal">
+			<div class="sign_up_modal">
+				<%= render "sign_up" %>
+			</div>
+			<div class="sign_in_modal">
+				<%= render "sign_in" %>
+			</div>
+		</div>
+	</main>
 <% end %>
 
-<h3>ババ抜き部屋一覧</h3>
-<% @rooms.each do |room| %>
-  <%= link_to room.name, room_path(room.id) %><br>
-<% end %>
+<%= javascript_pack_tag 'index' %>
+<%= stylesheet_link_tag "room_index.css" %>
+
+
+
+
+
