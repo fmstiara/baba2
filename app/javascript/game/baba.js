@@ -2,8 +2,8 @@ import { SkyWay } from './skyway';
 import { Card } from './card';
 
 export class Baba extends SkyWay{
-    constructor(_roomName){
-        super();
+    constructor(_user_id, _roomName){
+        super(_user_id);
 
         this.roomInfo = null
         this.takeUser = {
