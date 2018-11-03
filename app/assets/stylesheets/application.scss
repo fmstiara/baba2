@@ -14,8 +14,6 @@
  *= require_self
  */
 
-/* reset css */
-/* normalize? */
 
 @import "bootstrap";
 
@@ -30,15 +28,18 @@ html, body {
 	height: 100%;
 }
 
+.clearfix {
+	content: "";
+	display: block;
+	clear: both;
+}
+
 /* header */
 
 header {
 	position: fixed;
 	top: 0;
 	left: 0;
-	border-style: solid;
-  border-width: 150px calc(200vw) 0 0;
-  border-color: #eee transparent transparent transparent;
 }
 
 
@@ -48,16 +49,16 @@ header {
 	position: fixed;
 	top: 0;
 	z-index: 300;
-	height: 130px;
-	line-height: 130px;
+	height: 100px;
+	line-height: 100px;
 }
 
 .header_left {
 	left: 10%;
 }
 
-.logo_img {
-	width: 16px;
+.header_logo {
+	font-size: 32px;
 }
 
 .header_center {
@@ -68,11 +69,6 @@ header {
 
 /* header */
 
-/* main */
-
-
-
-/* main */
 
 /* footer */
 
@@ -82,7 +78,16 @@ header {
 	position: fixed;
 	bottom: 0;
 	left: 0;
+	line-height: 50px;
 }
+
+.footer_center, .footer_right {
+	display: inline-block;
+	width: calc(100% / 3);
+	float: right;
+}
+
+
 
 /* footer */
 

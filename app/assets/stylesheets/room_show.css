@@ -100,3 +100,39 @@ body {
     border: 10px solid transparent;
   }
 }
+
+
+
+
+
+
+
+
+/* shota edit */
+
+
+.card_wrapper {
+	height: 100px;
+	width: 100px;
+	float: left
+}
+
+.card_wrapper p {
+	display: inline-block;
+	height: 100px;
+	width: 100px;
+	margin-bottom: 0;
+	text-align: center;
+	line-height: 100px;
+}
+
+.card img {
+	width: 85px;
+	height: 85px;
+	position: absolute;
+	top: 7.5px;
+	left: 7.5px;
+}
+
+
+/* shota edit */

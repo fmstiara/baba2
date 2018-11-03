@@ -1,9 +1,24 @@
 <% if user_signed_in? %>
 	<main class="index_wrapper">
-		<h3>部屋一覧</h3>
-		<% @rooms.each do |room| %>
-		  <%= link_to room.name, room_path(room.id) %><br>
-		<% end %>
+		<div class="index_room clearfix">
+			<% @rooms.each do |room| %>
+				<div class="room">
+					<%= link_to room_path(room.id) do %>
+						<div class="room_content">
+							<div class="room_name">
+								<%= room.name %>
+							</div>
+							<div class="room_create_user">
+								<%= room.users.first.name %>
+							</div>
+							<div class="room_count_user">
+								<%= room.user_rooms.count %>
+							</div>
+						</div>
+					<% end %>
+				</div>
+			<% end %>
+		</div>
 	</main>
 <% else %>
 	<main class="top_wrapper">
@@ -11,8 +26,8 @@
 		<div class="top_text">
 			<%# <div class="top_title magictime vanishIn">ばばぬき</div> %>
 			<div class="top_title"><span class="ba1">ば</span><span class="ba2">ば</span><span class="nu">ぬ</span><span class="ki">き</span></div>
-			<div class="start_btn btn btn-danger">start</div>
 		</div>
+		<div class="start_btn btn btn-danger">start</div>
 		<div class="sign_modal">
 			<div class="sign_up_modal">
 				<%= render "sign_up" %>
