@@ -25,7 +25,7 @@ body {
 }
 
 .targetVideo{
-	border-color: royalblue;
+	border-color: #333;
 }
 
 .their-video-wrapper{
@@ -81,7 +81,7 @@ body {
 
 .flash_red {
 	border:10px solid crimson;
-  	animation: borderFlashing 800ms ease infinite alternate;
+  	animation: borderFlashing 0.5s ease infinite alternate;
 }
 
 @keyframes borderFlashing {
