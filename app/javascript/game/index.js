@@ -51,6 +51,11 @@ $(function(){
         }
     })
 
+    baba.on('face-end', ()=>{
+        $('.targetVideo').removeClass('flash-red');
+        $(".targetVideo").css("border-color", "#333");
+    })
+
     baba.on('choice', ()=>{
         $('#take-card-index-'+baba.choiceIndex).addClass('choiced')
     })
