@@ -43,13 +43,12 @@ body {
 
 #my-cards {
 	height:150px;
-	background-color:black;
+
 
 }
 
 #their-cards {
 	height:150px;
-	background-color:black;
 }
 
 #step2 {
@@ -58,13 +57,14 @@ body {
 
 #canvas {display:none;}
 
+
 #my-video {
-	width:400px;
-	height:300px;
+	width:350px;
+	height:260px;
 }
 
 .my-video-con {
-	height:320px;
+	height:280px;
 	float:right;
 	position: fixed;
 	bottom: 10px;
