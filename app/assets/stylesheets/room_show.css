@@ -138,6 +138,11 @@ body {
 	display: inline-block;
 	color: #fff;
 	z-index: 10000;
+	position: absolute;
+	top: 2px;
+	left: 7.5px;
+	width: 85px;
+	height: 85px;
 }
 
 
