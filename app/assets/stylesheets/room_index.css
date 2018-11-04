@@ -111,6 +111,50 @@ input[type=text] {
 	text-decoration: none;
 }
 
+.room_back {
+	position: absolute;
+	height: 200px;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+
+.room a {
+	position: relative;
+	display: block;
+}
+
+.room_content {
+	transform: rotateY(0deg);
+	transition: transform 700ms 150ms;
+}
+
+.room a:hover .room_content {
+	transform:rotateY(180deg);
+	transition: transform 700ms;
+}
+
+.room_name {
+	transform: rotateY(0deg);
+	transition: transform 700ms 150ms;
+}
+
+.room a:hover .room_name {
+	transform:rotateY(-180deg);
+	transition: transform 700ms;
+}
+
+.room_create_user {
+	transform: rotateY(0deg);
+	transition: transform 700ms 150ms;
+}
+
+.room a:hover .room_create_user {
+	transform:rotateY(-180deg);
+	transition: transform 700ms;
+}
+
+
 .room_content {
 	border: 1px solid black;
 	border-radius: 5px;

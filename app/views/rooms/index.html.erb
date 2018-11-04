@@ -1,46 +1,46 @@
 <% if user_signed_in? %>
-	<main class="index_wrapper">
-		<div class="index_room clearfix">
-			<% @rooms.each do |room| %>
-				<div class="room">
-					<%= link_to room_path(room.id) do %>
-						<div class="room_content">
-							<div class="room_name">
-								<%= room.name %>部屋
-							</div><br>
-							<div class="room_create_user">
-								オーナー：<%= room.users.first.name %>
-							</div><br>
-							<div class="room_count_user">
-							</div>
-
-							<span class="room_icon heart_icon"><img src="/assets/heart.png"></span>
-							<span class="room_icon diamond_icon"><img src="/assets/diamond.png"></span>
-							<span class="room_icon spade_icon"><img src="/assets/spade.svg"></span>
-							<span class="room_icon clover_icon"><img src="/assets/clover.svg"></span>
+<main class="index_wrapper">
+	<div class="index_room clearfix">
+		<% @rooms.each do |room| %>
+			<div class="room">
+				<%= link_to room_path(room.id) do %>
+					<div class="room_content">
+						<div class="room_name">
+							<%= room.name %>部屋
+						</div><br>
+						<div class="room_create_user">
+							オーナー：<%= room.users.first.name %>
+						</div><br>
+						<div class="room_count_user">
 						</div>
-					<% end %>
-				</div>
-			<% end %>
-		</div>
-	</main>
+
+						<span class="room_icon heart_icon"><img src="/assets/heart.png"></span>
+						<span class="room_icon diamond_icon"><img src="/assets/diamond.png"></span>
+						<span class="room_icon spade_icon"><img src="/assets/spade.svg"></span>
+						<span class="room_icon clover_icon"><img src="/assets/clover.svg"></span>
+					</div>
+				<% end %>
+			</div>
+		<% end %>
+	</div>
+</main>
 <% else %>
-	<main class="top_wrapper">
-		<img src="/assets/top.jpg" class="top_img">
-		<div class="top_text">
-			<%# <div class="top_title magictime vanishIn">ばばぬき</div> %>
-			<div class="top_title"><span class="ba1">ば</span><span class="ba2">ば</span><span class="nu">ぬ</span><span class="ki">き</span></div>
+<main class="top_wrapper">
+	<img src="/assets/top.jpg" class="top_img">
+	<div class="top_text">
+		<%# <div class="top_title magictime vanishIn">ばばぬき</div> %>
+		<div class="top_title"><span class="ba1">ば</span><span class="ba2">ば</span><span class="nu">ぬ</span><span class="ki">き</span></div>
+	</div>
+	<div class="start_btn btn btn-danger">start</div>
+	<div class="sign_modal">
+		<div class="sign_up_modal">
+			<%= render "sign_up" %>
 		</div>
-		<div class="start_btn btn btn-danger">start</div>
-		<div class="sign_modal">
-			<div class="sign_up_modal">
-				<%= render "sign_up" %>
-			</div>
-			<div class="sign_in_modal">
-				<%= render "sign_in" %>
-			</div>
+		<div class="sign_in_modal">
+			<%= render "sign_in" %>
 		</div>
-	</main>
+	</div>
+</main>
 <% end %>
 
 <%= javascript_pack_tag 'index' %>
