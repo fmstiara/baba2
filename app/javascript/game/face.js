@@ -36,7 +36,7 @@ export function send_face(_target_video){
                         console.log("change")
                     } else {
                         $(".targetVideo").removeClass("flash_red");
-                        $(".targetVideo").css("border", "10px solid blue");
+                        $(".targetVideo").css("border-color", "#333");
                         console.log('normal')
                     }
                 }
