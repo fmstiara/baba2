@@ -123,12 +123,12 @@ body {
 }
 
 .diamond {
-	background-image: url('/assets/diamond.svg');
+	background-image: url('/assets/diamond.png');
 	background-size: cover;
 }
 
 .heart {
-	background-image: url('/assets/heart.svg');
+	background-image: url('/assets/heart.png');
 	background-size: cover;
 }
 
@@ -141,5 +141,12 @@ body {
 	background-image: url('/assets/clover.svg');
 	background-size: cover;
 }
+
+.joker {
+	background-image: url('/assets/j.svg');
+	background-size: cover;
+}
+
+
 
 /* shota edit */

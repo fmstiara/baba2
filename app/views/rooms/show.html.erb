@@ -18,7 +18,9 @@
       <h2 class="text-white" id="room" data-room="<%= @room.name %>" data-id="<%= current_user.id%>"><%= "#{@room.name}部屋" %></h2>
       <div id="step2">
         <button id="participate" class="btn btn-light">参加する</button>
-        <button id="game-start" class="btn btn-light">ゲーム開始</button>
+        <% if current_user == @owner %>
+          <button id="game-start" class="btn btn-success">ゲーム開始</button>
+        <% end %>
 
         <button id="end-call" class="btn btn-warning">Tel Off</button>
         <%= link_to "部屋を出る", root_path , class: "btn btn-light" %>

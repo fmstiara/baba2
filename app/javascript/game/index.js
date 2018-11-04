@@ -112,17 +112,6 @@ $(function(){
                 '</div>'
             );
             $(_selector).append(c);
-            // console.log(_cards[i].mark+_cards[i].num);
-            // if (_cards[i].mark === "diamond") {
-            //     $('.'+i+'card_data').append('<img src="/assets/diamond.svg" class="diamond">');
-            // } else if (_cards[i].mark === "spade") {
-            //     $('.'+i+'card_data').append('<img src="/assets/spade.svg" class="spade">');
-            // } else if (_cards[i].mark === "heart") {
-            //     $('.'+i+'card_data').append('<img src="/assets/heart.svg" class="heart">');
-            // } else {
-            //     $('.'+i+'card_data').append('<img src="/assets/clover.svg" class="clover">');
-            // }
-            // $('.'+i+'card_data').removeClass(i+'card_data');
 
             if(addEvent){
                 c.on('click', (e)=>{

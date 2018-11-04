@@ -8,7 +8,7 @@ class RoomsController < ApplicationController
   def show
     @room = Room.find(params[:id])
     UserRoom.find_or_create_by(user_id: current_user.id, room_id: @room.id)
-    @owner = UserRoom.where(room_id: @room.id).first
+    @owner = UserRoom.where(room_id: @room.id).first.user
     @users = UserRoom.where(room_id: @room.id)
   end
 
