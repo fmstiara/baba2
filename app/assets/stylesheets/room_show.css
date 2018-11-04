@@ -3,10 +3,10 @@
  	padding:0;
  }
 body {
-	background-color:green;
+	/* background-color:green; */
 }
 
- .clearfix::after{
+.clearfix::after{
   content: "";
   display: block;
   clear: both;
@@ -18,20 +18,20 @@ body {
 
 .remoteVideos {
 	/*相手のビデオタグの大きさ*/
-	width:460px;
+	width:400px;
+
+	border: 5px solid #999;
+	border-radius: 5px;
 }
 
-.my-video-wrapper {
-	float:right;
-	height:100%;
-	width:30%;
+.targetVideo{
+	border-color: #333;
 }
 
 .their-video-wrapper{
-	float:left;
-	width:70%;
-	padding-bottom:100px;
-	padding-top:200px;
+	height: 100vh;
+	width:75%;
+	padding: 150px 0;
 }
 
 #their-videos div {
@@ -39,12 +39,6 @@ body {
 	float:left;
 	margin:30px 20px;
 }
-
-#my-video {
-	width:400px;
-	height:300px;
-}
-
 
 #room {
 	text-align:center;
@@ -54,22 +48,12 @@ body {
 	display:none;
 }
 
-#their-cards {
-	width:70%;
-	height:100px;
-	background-color:black;
-	position: fixed;
-	bottom: 0;
-	left:0;
+#my-area {
+	height:150px;
 }
 
-#my-cards {
-	width:70%;
-	position:fixed;
-	top:0;
-	left:0;
-	height:200px;
-	background-color:black;
+#take-area {
+	height:150px;
 }
 
 #step2 {
@@ -78,34 +62,36 @@ body {
 
 #canvas {display:none;}
 
+
+#my-video {
+	width:350px;
+	height:260px;
+
+	border: 5px solid #999;
+	border-radius: 5px;
+}
+
 .my-video-con {
-	height:320px;
+	height:280px;
 	float:right;
 	position: fixed;
-	bottom: 0px;
-	right:0;
-	border:10px solid blue;
+	bottom: 10px;
+	right: 20px;
 }
 
 .flash_red {
-	border:10px solid red;
+	border:10px solid crimson;
   	animation: borderFlashing 0.5s ease infinite alternate;
 }
 
 @keyframes borderFlashing {
   0% {
-    border: 10px solid red;
+    border: 10px solid crimson;
   }
   100% {
     border: 10px solid transparent;
   }
 }
-
-
-
-
-
-
 
 
 /* shota edit */
@@ -114,7 +100,10 @@ body {
 .card_wrapper {
 	height: 100px;
 	width: 100px;
-	float: left
+	float: left;
+
+	border-width: 2px;
+	transition: 200ms ease;
 }
 
 .card_wrapper p {
@@ -123,7 +112,12 @@ body {
 	width: 100px;
 	margin-bottom: 0;
 	text-align: center;
-	line-height: 100px;
+	line-height: 90px;
+
+	font-size: 24px;
+	color: aliceblue;
+
+	user-select: none;
 }
 
 .card img {
@@ -134,15 +128,38 @@ body {
 	left: 7.5px;
 }
 
-.card span {
-	display: inline-block;
-	color: #fff;
-	z-index: 10000;
-	position: absolute;
-	top: 2px;
-	left: 7.5px;
-	width: 85px;
-	height: 85px;
+#take-card{
+	display: none;
+	overflow: hidden;
+}
+
+.choiced{
+	border-color: crimson;
+}
+
+.diamond {
+	background-image: url('/assets/diamond.png');
+	background-size: contain;
+}
+
+.heart {
+	background-image: url('/assets/heart.png');
+	background-size: contain;
+}
+
+.spade {
+	background-image: url('/assets/spade.svg');
+	background-size: contain;
+}
+
+.club {
+	background-image: url('/assets/clover.svg');
+	background-size: contain;
+}
+
+.joker {
+	background-image: url('/assets/j.svg');
+	background-size: contain;
 }
 
 

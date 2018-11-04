@@ -1,51 +1,72 @@
 <div class="container-fluid">
   <!-- Video area -->
-  <div class="pure-u-2-3 clearfix" id="video-container">
-    <div id="my-cards">
-        自分ののカード表示
-    </div>
-    <div id="their-videos" class="clearfix their-video-wrapper">
-      <!-- これが一つの画面 -->
-    </div>
-
-    <div id="their-cards">
-      とる相手のカード表示
-    </div>
-
-      <div class="my-video-wrapper">
-        <div class="action">
-          <h2 id="room" data-room="<%= @room.name %>" data-id="<%= current_user.id%>"><%= "#{@room.name}部屋" %></h2>
-          <div id="step2">
-            <button id="participate" class="btn btn-success">参加する</button>
-            <% if current_user.id == @owner.user_id %>
-              <button id="game-start" class="btn btn-success">ゲーム開始</button>
-            <% end %>
-
-            <button id="end-call" class="btn btn-warning">Tel Off</button>
-            <%= link_to "部屋を出る", root_path , class: "btn btn-default" %>
+  <div class="row">
+    <div class="col-9 bg-success">
+      <div class="col-9 fixed-top bg-dark clearfix" id="my-area">
+          <div class="row">
+            <div class="col-10">
+              <p class="lead text-white">MY-CARDS</p>
+              <div id="my-cards"></div>
+            </div>
+            <div class="col-2">
+              <p class="lead text-white">TAKEN-CARD</p>
+              <div id="take-card"></div>
+            </div>
           </div>
-           <div class="settings">
-          <h3>Settigns</h3>
+      </div>
+      <div id="their-videos" class="clearfix their-video-wrapper">
+        <!-- これが一つの画面 -->
+      </div>
+      <div class="col-9 fixed-bottom bg-dark clearfix" id="take-area">
+        <p class="lead text-white">TAKE-CARDS</p>
+        <div id="their-cards"></div>
+      </div>
+    </div>
+
+    <div class="col-3 border-left bg-success pt-3">
+      <h2 class="text-white" id="room" data-room="<%= @room.name %>" data-id="<%= current_user.id%>"><%= "#{@room.name}部屋" %></h2>
+      <div id="step2">
+        <button id="participate" class="btn btn-light">参加する</button>
+        <% if current_user == @owner %>
+          <button id="game-start" class="btn btn-light">ゲーム開始</button>
+        <% end %>
+
+        <button id="end-call" class="btn btn-warning">Tel Off</button>
+        <%= link_to "部屋を出る", root_path , class: "btn btn-light" %>
+      </div>
+
+      <div class="card m-4">
+        <div class="card-header">status: <span id="my-status"></span></div>
+        <div class="card-body">
+          <h6>winner list</h6>
+          <ul class="list-group list-group-flush" id="winner-list">
+          </ul>
+        </div>
+      </div>
+
+      <div class="settings card m-4">
+        <div class="card-header">Settigns</div>
+        <div class="card-body">
+          <div class="select form-group">
+            <label for="audioSource">Audio Input Source: </label>
+            <select class="form-control"id="audioSource"></select>
+          </div>
 
           <div class="select">
-            <label for="audioSource">Audio input source: </label><select id="audioSource"></select>
+            <label for="videoSource">Video Source: </label>
+            <select class="form-control" id="videoSource"></select>
           </div>
-
-          <div class="select">
-            <label for="videoSource">Video source: </label><select id="videoSource"></select>
-          </div>
-
-          <!-- キャンバスの作成 -->
-          <button id="face_start">スタート</button>
-          <canvas id="canvas" width="480px" height="270px"></canvas>
         </div>
-
-        </div>
-        <label id="my-label"></label>
-        <div class="my-video-con"><video id="my-video" muted="true" autoplay playsinline></video></div>
+      </div>
+      <!-- キャンバスの作成 -->
+      <label id="my-label"></label>
+      <div class="my-video-con">
+        <canvas id="canvas" width="480px" height="270px"></canvas>
+        <video class="" id="my-video" muted="true" autoplay playsinline></video>
       </div>
     </div>
   </div>
+</div>
 
   <!-- Steps -->
 
