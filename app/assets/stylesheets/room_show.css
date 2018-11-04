@@ -89,7 +89,7 @@ body {
 
 .flash_red {
 	border:10px solid red;
-  	animation: borderFlashing 1s ease infinite alternate;
+  	animation: borderFlashing 0.5s ease infinite alternate;
 }
 
 @keyframes borderFlashing {
