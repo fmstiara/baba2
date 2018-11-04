@@ -106,9 +106,8 @@ export class SkyWay{
           const id = 'video_' + peerId + '_' + stream.id.replace('{', '').replace('}', '');
 
           $(videoDOM).append($(
-            '<div class="video_' + peerId +'" id="' + id + '">' +
-              '<label>' + stream.peerId + ':' + stream.id + '</label>' +
-              '<video class="remoteVideos" autoplay playsinline>' +
+            '<div class="" id="' + id+ '">'+
+              '<video class="remoteVideos" id="v-'+peerId+'"autoplay playsinline>' +
             '</div>'));
           const el = $('#' + id).find('video').get(0);
           el.srcObject = stream;

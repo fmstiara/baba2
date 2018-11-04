@@ -20,7 +20,7 @@ export function send_face(_target_video){
                 url: "https://japaneast.api.cognitive.microsoft.com/face/v1.0/detect"+ "?" + $.param(params),
                 contentType: "application/octet-stream",
                 headers: {
-                'Ocp-Apim-Subscription-Key': ""
+                'Ocp-Apim-Subscription-Key': "7c3dd7bfc9cf4bc08acb56ff8281aa49"
                 },
                 type: "POST",
                 processData: false,
@@ -28,20 +28,19 @@ export function send_face(_target_video){
             })
             .done(function(data) {
                 // Show formatted JSON on webpage.
-                console.log("get")
-                console.log(data)
-                console.log(data[0]["faceAttributes"]["emotion"]["neutral"])
-                console.log(data[0]["faceAttributes"]["emotion"])//ここで感情を取得できた
-                if (data[0]["faceAttributes"]["emotion"]["neutral"] < 0.9){
-                    // #焦っている
-                    $(".my-video-con").css("border", "none");
-                    $(".my-video-con").addClass("flash_red");
-                    console.log("cheage")
-                } else {
-                    $(".my-video-con").removeClass("flash_red");
-                    $(".my-video-con").css("border", "10px solid blue");
+                if (data != false){
+                    if (data[0]["faceAttributes"]["emotion"]["neutral"] < 0.9){
+                        // #焦っている
+                        $(".targetVideo").css("border", "none");
+                        $(".targetVideo").addClass("flash_red");
+                        console.log("change")
+                    } else {
+                        $(".targetVideo").removeClass("flash_red");
+                        $(".targetVideo").css("border", "10px solid blue");
+                        console.log('normal')
+                    }
                 }
-                // ここで_target_videoのボーダカラーチェンジ
+                    // ここで_target_videoのボーダカラーチェンジ
             })
             .fail(function(err) {
                 console.error(err);

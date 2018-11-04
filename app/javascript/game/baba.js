@@ -30,12 +30,11 @@ export class Baba extends SkyWay{
         const self = this;
         let id = setInterval(function(){
             if(self.status == 'myturn'){
-                console.log("s")
                 send_face(_target_video);
             } else {
                 clearInterval(id);
             }
-        }, 5000);
+        }, 1000);
     }
 
     on(_name = "test", callback){
@@ -222,13 +221,8 @@ export class Baba extends SkyWay{
                 let user_id = data['user_id'];
                 let cards = self.roomInfo['userCards'][user_id];
                 cards.splice(index, 1);
-                
-                self.dispatch('change');
-                if(cards.length == 0){
-                    // 他人、勝ち
-                    self.anyoneWin(user_id)
-                }
 
+                self.dispatch('change');
                 self.addTrash();
             } else if(eventName === 'push'){
                 console.log('on data: event '+eventName);
@@ -257,6 +251,7 @@ export class Baba extends SkyWay{
             index: _index,
             user_id: this.takeUser.id
         });
+        this.dispatch('choice')
     }
 
     take(_index){
