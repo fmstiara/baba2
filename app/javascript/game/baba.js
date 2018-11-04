@@ -33,6 +33,7 @@ export class Baba extends SkyWay{
                 send_face(_target_video);
             } else {
                 clearInterval(id);
+                self.dispatch('face-end')
             }
         }, 1000);
     }
