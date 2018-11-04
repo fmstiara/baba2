@@ -152,10 +152,11 @@ $(function(){
     function appendCards(_selector, _cards = [], addEvent = false){
         $(_selector).empty();
         for(let i=0; i<_cards.length; i++){
-            let c = getCardDOM(_cards[i].mark, _cards[i].num, i);
-        
+            let c = null;
             if(addEvent){
+                c = getCardDOM("", "", i);
                 c.attr('id', 'take-card-index-'+i);
+                c.addClass('cover');
                 c.on('click', (e)=>{
                     if(baba.status == "myturn"){
                         const index = e.target.dataset.index;
@@ -170,6 +171,7 @@ $(function(){
                     }
                 })
             } else {
+                c = getCardDOM(_cards[i].mark, _cards[i].num, i);
                 c.attr('id', 'my-card-index-'+i);
             }
 

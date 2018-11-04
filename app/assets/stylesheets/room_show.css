@@ -137,6 +137,11 @@ body {
 	border-color: crimson;
 }
 
+.cover {
+	background-image: url('/assets/back.jpg');
+	background-size: cover;
+}
+
 .diamond {
 	background-image: url('/assets/diamond.png');
 	background-size: contain;
