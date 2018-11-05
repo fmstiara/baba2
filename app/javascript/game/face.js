@@ -20,7 +20,7 @@ export function send_face(_target_video){
                 url: "https://japaneast.api.cognitive.microsoft.com/face/v1.0/detect"+ "?" + $.param(params),
                 contentType: "application/octet-stream",
                 headers: {
-                'Ocp-Apim-Subscription-Key': "7c3dd7bfc9cf4bc08acb56ff8281aa49"
+                'Ocp-Apim-Subscription-Key': "__API_Key__"
                 },
                 type: "POST",
                 processData: false,
